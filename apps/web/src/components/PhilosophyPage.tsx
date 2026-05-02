@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ArrowLeft } from 'lucide-react'
 import { Header, NavLink } from '@supaproxy/ui'
 import { ARTICLES, getArticlesByCategory, ARTICLES_PER_PAGE } from '../content'
@@ -9,12 +9,7 @@ import { BlockRenderer } from './BlockRenderer'
 export default function PhilosophyPage() {
   const [category, setCategory] = useState<string>('All')
   const [page, setPage] = useState(1)
-  const [selectedArticle, setSelectedArticle] = useState<Article | null>(() => {
-    if (typeof window === 'undefined') return null
-    const params = new URLSearchParams(window.location.search)
-    const slug = params.get('article')
-    return slug ? ARTICLES.find(a => a.slug === slug) || null : null
-  })
+  const [selectedArticle, setSelectedArticle] = useState<Article | null>(null)
 
   const selectArticle = (article: Article | null) => {
     setSelectedArticle(article)
@@ -24,6 +19,23 @@ export default function PhilosophyPage() {
       window.history.pushState({}, '', '/')
     }
   }
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const slug = params.get('article')
+    if (slug) {
+      const found = ARTICLES.find(a => a.slug === slug)
+      if (found) setSelectedArticle(found)
+    }
+
+    function onPopState() {
+      const p = new URLSearchParams(window.location.search)
+      const s = p.get('article')
+      setSelectedArticle(s ? ARTICLES.find(a => a.slug === s) || null : null)
+    }
+    window.addEventListener('popstate', onPopState)
+    return () => window.removeEventListener('popstate', onPopState)
+  }, [])
 
   if (selectedArticle) {
     return <ArticleView article={selectedArticle} onBack={() => selectArticle(null)} />

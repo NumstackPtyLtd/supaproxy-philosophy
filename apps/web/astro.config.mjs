@@ -6,7 +6,7 @@ import node from '@astrojs/node';
 export default defineConfig({
   output: 'server',
   adapter: node({ mode: 'standalone' }),
-  server: { port: 3005 },
+  server: { port: 3006 },
   vite: { plugins: [tailwindcss()] },
   integrations: [react()]
 });

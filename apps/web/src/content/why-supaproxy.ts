@@ -1,38 +1,40 @@
 import type { Article } from '../lib/types'
 
 export const article: Article = {
-  slug: 'why-supaproxy',
-  title: 'Why we built SupaProxy',
-  subtitle: 'Every company will have AI agents. Most will lose control of what those agents do.',
+  slug: 'why-a-proxy',
+  title: 'What if AI had a governance layer?',
+  subtitle: 'Every company will route AI traffic. The question is whether they will see what flows through.',
   category: 'Philosophy',
-  tags: ['vision', 'ai-operations', 'governance', 'open-source'],
+  tags: ['governance', 'ai-operations', 'proxy-pattern', 'visibility'],
   date: '2026-04-15',
   readTime: '3 min',
   coverColor: '#0f172a',
   blocks: [
-    { type: 'paragraph', text: 'AI agents are becoming the interface between employees and data. They query databases, call APIs, draft documents, and make decisions. The question isn\'t whether your company will use them. It\'s whether you\'ll have any visibility into what they do.' },
+    { type: 'paragraph', text: 'AI agents are becoming the primary interface between employees and organisational data. They query databases, call APIs, draft documents. The speed is intoxicating. The visibility is zero.' },
 
-    { type: 'heading', text: 'The problem with direct access' },
-    { type: 'paragraph', text: 'Today, most companies connect their AI tools directly to model providers. Employee asks Claude a question, Claude responds. No logging, no guardrails, no cost tracking. The company has zero visibility into what data leaves its infrastructure.' },
+    { type: 'heading', text: 'The invisible highway' },
+    { type: 'paragraph', text: 'Most AI traffic today flows directly from the employee to the model provider. No logging. No screening. No cost tracking. The organisation has no visibility into what data leaves its infrastructure, what questions are being asked, or what answers are being given.' },
+    { type: 'paragraph', text: 'This is not a theoretical risk. It is a structural blind spot.' },
 
-    { type: 'callout', variant: 'warning', title: 'The risk', text: 'An employee asks an AI to "draft a proposal for the Falcon acquisition" and sends the company\'s most sensitive strategic information to a third-party model provider. No audit trail. No way to know it happened.' },
+    { type: 'callout', variant: 'insight', title: 'The question', text: 'What if every AI query passed through a single, observable layer? Not to slow things down, but to see them. To understand them. To govern them.' },
 
     { type: 'heading', text: 'The proxy pattern' },
-    { type: 'paragraph', text: 'A proxy sits between your people and the AI models. Every query passes through it. This gives you a single point to log, screen, route, and enforce policy. The same architecture that web proxies use for HTTP traffic, applied to AI conversations.' },
+    { type: 'paragraph', text: 'Web proxies have existed for decades. They sit between clients and servers, providing visibility, caching, security, and routing. The same pattern applied to AI traffic creates a governance layer. One place to log, screen, route, and enforce policy.' },
+    { type: 'paragraph', text: 'The proxy does not own the models. It does not own the data. It sits between them and provides the oversight that neither can provide alone.' },
 
-    { type: 'heading', text: 'What the proxy controls' },
+    { type: 'heading', text: 'What becomes possible' },
     { type: 'list', items: [
-      'Which models each team can use (route to Claude for engineering, GPT for marketing)',
-      'What data can leave (guardrails screen for PII, credentials, IP before forwarding)',
-      'How much it costs (per-user, per-team, per-model budgets)',
-      'What happened (every query logged with full context for compliance)',
-      'Who can access what (tool-level permissions via MCP connections)',
+      'Visibility into what questions employees ask AI, across every team.',
+      'Screening for sensitive data before it reaches a third-party model.',
+      'Cost attribution to the team, user, and use case that generated it.',
+      'Routing decisions that match the right model to the right purpose.',
+      'Compliance evidence that data handling policies were enforced.',
     ]},
 
-    { type: 'heading', text: 'Why open source' },
-    { type: 'paragraph', text: 'The proxy is the wrong thing to make proprietary. If you\'re asking companies to route all their AI traffic through a single point, that point needs to be auditable. Open source means you can verify what the proxy does with your data. You can self-host it. You can fork it.' },
-    { type: 'paragraph', text: 'The commercial layer (SupaProxy Cloud) adds multi-tenancy, managed hosting, marketplace, and compliance exports. The guardrails are the product, not the proxy itself.' },
+    { type: 'heading', text: 'Where the value lives' },
+    { type: 'paragraph', text: 'Should the governance layer be proprietary or open source? If you are asking organisations to route all AI traffic through a single point, does that point need to be auditable? There is a strong argument that the proxy itself is infrastructure and should be transparent. The value lives in what you layer on top of it. The guardrails, the compliance evidence, the industry-specific extensions that make the proxy useful for a particular sector.' },
+    { type: 'paragraph', text: 'This is a separation of concerns question at the business model level, not just the code level. Infrastructure wants to be open. Intelligence wants to be differentiated. Getting the boundary right between the two is the interesting design problem.' },
 
-    { type: 'callout', variant: 'principle', title: 'Our position', text: 'The proxy is infrastructure. Open it. The guardrails, the marketplace, the compliance evidence, the managed service... that\'s the product. That\'s where the value is.' },
+    { type: 'callout', variant: 'principle', title: 'A principle worth exploring', text: 'Infrastructure should be open. The intelligence layered on top of it is where differentiation lives.' },
   ],
 }

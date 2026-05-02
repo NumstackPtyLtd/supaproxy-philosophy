@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import type { ContentBlock } from '../lib/types'
 import { Lightbulb, BookOpen, AlertTriangle } from 'lucide-react'
 
@@ -41,26 +42,10 @@ function RenderBlock({ block }: { block: ContentBlock }) {
       )
 
     case 'code':
-      return (
-        <div className="rounded-xl overflow-hidden my-6" style={{ border: '1px solid var(--border-color)' }}>
-          {block.title && (
-            <div className="px-4 py-2.5 text-[11px] font-mono" style={{ background: 'var(--bg-surface)', borderBottom: '1px solid var(--border-color)', color: 'var(--text-muted)' }}>
-              {block.title}
-            </div>
-          )}
-          <pre className="p-5 text-[13px] font-mono leading-relaxed overflow-x-auto" style={{ background: 'var(--bg-card)', color: 'var(--body)' }}>
-            {block.code}
-          </pre>
-        </div>
-      )
+      return <CodeBlock code={block.code} title={block.title} language={block.language} />
 
     case 'mermaid':
-      return (
-        <div className="my-6 rounded-xl p-6 text-center" style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)' }}>
-          <pre className="text-[12px] font-mono whitespace-pre-wrap" style={{ color: 'var(--body)' }}>{block.diagram}</pre>
-          {block.caption && <p className="text-[12px] mt-3" style={{ color: 'var(--text-muted)' }}>{block.caption}</p>}
-        </div>
-      )
+      return <MermaidBlock diagram={block.diagram} caption={block.caption} />
 
     case 'callout': {
       const icons = { insight: Lightbulb, principle: BookOpen, warning: AlertTriangle }
@@ -114,4 +99,108 @@ function RenderBlock({ block }: { block: ContentBlock }) {
     default:
       return null
   }
+}
+
+function MermaidBlock({ diagram, caption }: { diagram: string; caption?: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function render() {
+      const mermaid = (await import('mermaid')).default
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'default',
+        fontFamily: 'Inter, system-ui, sans-serif',
+        flowchart: { curve: 'monotoneX', padding: 20, htmlLabels: true },
+        themeVariables: {
+          primaryColor: '#e2e8f0',
+          primaryTextColor: '#0f172a',
+          primaryBorderColor: '#cbd5e1',
+          lineColor: '#94a3b8',
+          secondaryColor: '#f1f5f9',
+          tertiaryColor: '#ffffff',
+        },
+      })
+
+      if (cancelled || !ref.current) return
+
+      try {
+        const id = `mermaid-${Math.random().toString(36).slice(2, 8)}`
+        const { svg } = await mermaid.render(id, diagram)
+        if (!cancelled && ref.current) {
+          ref.current.innerHTML = svg
+        }
+      } catch (err) {
+        console.error('Mermaid render failed:', err)
+        if (ref.current) {
+          ref.current.innerHTML = `<pre style="text-align:left;font-size:12px;color:var(--body)">${diagram}</pre>`
+        }
+      }
+    }
+
+    render()
+    return () => { cancelled = true }
+  }, [diagram])
+
+  return (
+    <div className="my-6 rounded-xl p-6 text-center overflow-x-auto" style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)' }}>
+      <div ref={ref} className="flex justify-center [&_svg]:max-w-full" />
+      {caption && <p className="text-[12px] mt-4" style={{ color: 'var(--text-muted)' }}>{caption}</p>}
+    </div>
+  )
+}
+
+function CodeBlock({ code, title, language }: { code: string; title?: string; language: string }) {
+  const keywords = ['interface', 'readonly', 'string', 'Promise', 'export', 'import', 'from', 'const', 'let', 'async', 'await', 'function', 'return', 'type', 'class', 'extends', 'implements', 'new']
+  const types = ['GuardrailPlugin', 'ScreeningResult', 'GuardrailContext', 'PatternRule']
+
+  function highlight(src: string): string {
+    if (language !== 'typescript' && language !== 'ts') return escapeHtml(src)
+
+    return src.split('\n').map(line => {
+      // Comments
+      if (line.trimStart().startsWith('//')) {
+        return `<span style="color:var(--text-muted)">${escapeHtml(line)}</span>`
+      }
+
+      let result = escapeHtml(line)
+
+      // Strings
+      result = result.replace(/&#39;([^&#]*?)&#39;/g, '<span style="color:#059669">\'$1\'</span>')
+      result = result.replace(/&quot;([^&]*?)&quot;/g, '<span style="color:#059669">"$1"</span>')
+
+      // Keywords
+      for (const kw of keywords) {
+        result = result.replace(new RegExp(`\\b${kw}\\b`, 'g'), `<span style="color:#7C3AED">${kw}</span>`)
+      }
+
+      // Types
+      for (const t of types) {
+        result = result.replace(new RegExp(`\\b${t}\\b`, 'g'), `<span style="color:#2563EB">${t}</span>`)
+      }
+
+      return result
+    }).join('\n')
+  }
+
+  return (
+    <div className="rounded-xl overflow-hidden my-6" style={{ border: '1px solid var(--border-color)' }}>
+      {title && (
+        <div className="px-4 py-2.5 text-[11px] font-mono" style={{ background: 'var(--bg-surface)', borderBottom: '1px solid var(--border-color)', color: 'var(--text-muted)' }}>
+          {title}
+        </div>
+      )}
+      <pre
+        className="p-5 text-[13px] font-mono leading-relaxed overflow-x-auto"
+        style={{ background: 'var(--bg-card)', color: 'var(--body)' }}
+        dangerouslySetInnerHTML={{ __html: highlight(code) }}
+      />
+    </div>
+  )
+}
+
+function escapeHtml(str: string): string {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;')
 }
