@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getArticle, ARTICLES } from '../content';
+import ArticleReader from '../components/ArticleReader';
+
+const { slug } = Astro.params;
+const article = getArticle(slug || '');
+
+if (!article) {
+  return Astro.redirect('/');
+}
+---
+
+<Layout title={`${article.title} - SupaProxy Philosophy`} description={article.subtitle}>
+  <ArticleReader client:load article={article} />
+</Layout>

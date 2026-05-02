@@ -14,15 +14,7 @@ export const article: Article = {
     { type: 'paragraph', text: 'A proxy that forwards queries to an LLM is a router. A proxy that screens, filters, and enforces policy before forwarding is a guardrail. The difference between infrastructure and product is what happens at the interception point.' },
 
     { type: 'heading', text: 'The pipeline concept' },
-    { type: 'paragraph', text: 'Consider a query as water flowing through a pipe. Guardrails are filters in that pipe. Some check the water before it reaches the treatment plant. Others check it after treatment, before it reaches the tap. The pipeline runs in sequence. Each filter receives the output of the previous one.' },
-    { type: 'mermaid', diagram: `graph LR
-    A[User query] --> B[Pattern filter]
-    B --> C[AI classifier]
-    C --> D[Custom filters]
-    D --> E{Decision}
-    E -->|Clean| F[Forward to LLM]
-    E -->|Sensitive| G[Redact and forward]
-    E -->|Dangerous| H[Block with explanation]`, caption: 'A guardrail pipeline with multiple stages' },
+    { type: 'paragraph', text: 'Consider a query as water flowing through a pipe. Guardrails are filters in that pipe. Some check the water before it reaches the treatment plant. Others check it after treatment, before it reaches the tap. The pipeline runs in sequence. Each filter receives the output of the previous one. A fast pattern matcher catches obvious patterns first. An AI classifier catches nuance second. Custom filters catch domain-specific terms third. At each stage, the query is either passed, redacted, or blocked.' },
 
     { type: 'heading', text: 'Why one size does not fit all' },
     { type: 'paragraph', text: 'A bank needs to catch account numbers and trading positions. A law firm needs to catch client names and case details. A healthcare company needs to catch patient IDs and diagnoses. A startup needs to catch API keys and nothing else.' },
