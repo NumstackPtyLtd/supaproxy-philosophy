@@ -93,14 +93,40 @@ export default function PhilosophyPage() {
             ))}
           </div>
 
+          {/* Featured article */}
+          {category === 'All' && page === 1 && (() => {
+            const feat = visible.find(a => a.featured)
+            if (!feat) return null
+            return (
+              <button
+                onClick={() => selectArticle(feat)}
+                className="w-full rounded-2xl mb-8 text-left cursor-pointer card-hover p-8 md:p-10"
+                style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)' }}
+              >
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="w-2 h-2 rounded-full" style={{ background: feat.coverColor }} />
+                  <span className="text-[11px] font-medium" style={{ color: 'var(--text-muted)' }}>Featured</span>
+                  <span className="text-[11px]" style={{ color: 'var(--text-muted)' }}>{feat.category}</span>
+                  <span className="text-[11px] ml-auto" style={{ color: 'var(--text-muted)' }}>{feat.readTime}</span>
+                </div>
+                <h2 className="text-[24px] md:text-[30px] font-bold leading-tight mb-3 max-w-[600px]" style={{ color: 'var(--text-heading)', fontFamily: "'Costaline', serif" }}>
+                  {feat.title}
+                </h2>
+                <p className="text-[15px] leading-relaxed max-w-[500px]" style={{ color: 'var(--body)' }}>
+                  {feat.subtitle}
+                </p>
+              </button>
+            )
+          })()}
+
           {/* Article grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {visible.map(article => (
+            {visible.filter(a => !(category === 'All' && page === 1 && a.featured)).map(article => (
               <ArticleCard key={article.slug} article={article} onClick={() => selectArticle(article)} />
             ))}
           </div>
 
-          {visible.length === 0 && (
+          {visible.filter(a => !(category === 'All' && page === 1 && a.featured)).length === 0 && !visible.find(a => a.featured) && (
             <p className="text-center text-[14px] py-16" style={{ color: 'var(--text-muted)' }}>No articles in this category yet.</p>
           )}
 
@@ -137,58 +163,116 @@ export default function PhilosophyPage() {
 }
 
 function ArticleView({ article, onBack }: { article: Article; onBack: () => void }) {
+  const headerBrand = (
+    <a href="/" className="flex items-center gap-1.5">
+      <span className="text-[18px] font-bold" style={{ fontFamily: "'Costaline', serif", color: 'var(--text-heading)' }}>SupaProxy</span>
+      <span className="text-[11px]" style={{ color: 'var(--text-muted)' }}>by Numstack</span>
+    </a>
+  )
+
+  if (article.featured) {
+    return <FeaturedArticleView article={article} onBack={onBack} brand={headerBrand} />
+  }
+
   return (
     <div style={{ background: 'var(--bg)' }} className="min-h-screen">
-      <Header
-        brand={
-          <a href="/" className="flex items-center gap-1.5">
-            <span className="text-[18px] font-bold" style={{ fontFamily: "'Costaline', serif", color: 'var(--text-heading)' }}>SupaProxy</span>
-            <span className="text-[11px]" style={{ color: 'var(--text-muted)' }}>by Numstack</span>
-          </a>
-        }
-      />
-
+      <Header brand={headerBrand} />
       <main className="pt-14">
         <div className="max-w-[700px] mx-auto px-6 pt-10 pb-20">
           <button onClick={onBack} className="flex items-center gap-1.5 text-[13px] mb-8 cursor-pointer transition-opacity hover:opacity-70" style={{ color: 'var(--body)' }}>
             <ArrowLeft size={14} /> All articles
           </button>
-
-          {/* Article header */}
-          <div className="mb-10">
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full" style={{ background: 'var(--bg-surface)', color: 'var(--body)' }}>
-                {article.category}
-              </span>
-              <span className="text-[12px]" style={{ color: 'var(--text-muted)' }}>{article.date}</span>
-              <span className="text-[12px]" style={{ color: 'var(--text-muted)' }}>{article.readTime}</span>
-            </div>
-
-            <h1 className="text-[32px] md:text-[40px] font-bold leading-tight mb-4" style={{ color: 'var(--text-heading)' }}>
-              {article.title}
-            </h1>
-
-            <p className="text-[18px] leading-relaxed" style={{ color: 'var(--body)' }}>
-              {article.subtitle}
-            </p>
-          </div>
-
-          {/* Divider */}
+          <ArticleHeader article={article} />
           <div className="mb-10" style={{ borderTop: '1px solid var(--border-color)' }} />
-
-          {/* Content */}
           <BlockRenderer blocks={article.blocks} />
-
-          {/* Tags */}
-          <div className="mt-14 pt-6 flex flex-wrap gap-2" style={{ borderTop: '1px solid var(--border-color)' }}>
-            {article.tags.map(tag => (
-              <span key={tag} className="text-[12px] px-3 py-1 rounded-full" style={{ background: 'var(--bg-surface)', color: 'var(--text-muted)' }}>
-                {tag}
-              </span>
-            ))}
-          </div>
+          <ArticleTags tags={article.tags} />
         </div>
       </main>
+    </div>
+  )
+}
+
+function FeaturedArticleView({ article, onBack, brand }: { article: Article; onBack: () => void; brand: React.ReactNode }) {
+  return (
+    <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
+      <Header brand={brand} />
+
+      {/* Wide hero */}
+      <div style={{ background: 'var(--bg-surface)' }}>
+        <div className="max-w-[960px] mx-auto px-6 pt-24 pb-14">
+          <button onClick={onBack} className="flex items-center gap-1.5 text-[13px] mb-8 cursor-pointer transition-opacity hover:opacity-70" style={{ color: 'var(--body)' }}>
+            <ArrowLeft size={14} /> All articles
+          </button>
+          <div className="flex items-center gap-2 mb-5">
+            <span className="w-2 h-2 rounded-full" style={{ background: article.coverColor }} />
+            <span className="text-[11px] font-medium" style={{ color: 'var(--text-muted)' }}>{article.category}</span>
+            <span className="text-[12px]" style={{ color: 'var(--text-muted)' }}>{article.date}</span>
+            <span className="text-[12px]" style={{ color: 'var(--text-muted)' }}>{article.readTime}</span>
+          </div>
+          <h1 className="text-[36px] md:text-[48px] font-bold leading-[1.1] mb-5 max-w-[700px]" style={{ color: 'var(--text-heading)' }}>
+            {article.title}
+          </h1>
+          <p className="text-[18px] leading-relaxed max-w-[600px] mb-6" style={{ color: 'var(--body)' }}>
+            {article.subtitle}
+          </p>
+          <AuthorLine author={article.author} />
+        </div>
+      </div>
+
+      {/* Wide content area */}
+      <main style={{ background: 'var(--bg)' }}>
+        <div className="max-w-[760px] mx-auto px-6 py-16">
+          <BlockRenderer blocks={article.blocks} />
+          <ArticleTags tags={article.tags} />
+        </div>
+      </main>
+    </div>
+  )
+}
+
+function ArticleHeader({ article }: { article: Article }) {
+  return (
+    <div className="mb-10">
+      <div className="flex items-center gap-2 mb-4">
+        <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full" style={{ background: 'var(--bg-surface)', color: 'var(--body)' }}>
+          {article.category}
+        </span>
+        <span className="text-[12px]" style={{ color: 'var(--text-muted)' }}>{article.date}</span>
+        <span className="text-[12px]" style={{ color: 'var(--text-muted)' }}>{article.readTime}</span>
+      </div>
+      <h1 className="text-[32px] md:text-[40px] font-bold leading-tight mb-4" style={{ color: 'var(--text-heading)' }}>
+        {article.title}
+      </h1>
+      <p className="text-[18px] leading-relaxed mb-6" style={{ color: 'var(--body)' }}>
+        {article.subtitle}
+      </p>
+      <AuthorLine author={article.author} />
+    </div>
+  )
+}
+
+function AuthorLine({ author }: { author: Article['author'] }) {
+  return (
+    <div className="flex items-center gap-3">
+      <div className="w-8 h-8 rounded-full flex items-center justify-center text-[12px] font-bold" style={{ background: 'var(--bg-surface)', color: 'var(--text-heading)' }}>
+        {author.name[0]}
+      </div>
+      <div>
+        <span className="text-[13px] font-medium" style={{ color: 'var(--text-heading)' }}>{author.name}</span>
+        {author.role && <span className="text-[12px] ml-1.5" style={{ color: 'var(--text-muted)' }}>{author.role}</span>}
+      </div>
+    </div>
+  )
+}
+
+function ArticleTags({ tags }: { tags: string[] }) {
+  return (
+    <div className="mt-14 pt-6 flex flex-wrap gap-2" style={{ borderTop: '1px solid var(--border-color)' }}>
+      {tags.map(tag => (
+        <span key={tag} className="text-[12px] px-3 py-1 rounded-full" style={{ background: 'var(--bg-surface)', color: 'var(--text-muted)' }}>
+          {tag}
+        </span>
+      ))}
     </div>
   )
 }

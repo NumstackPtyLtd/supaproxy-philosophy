@@ -4,6 +4,7 @@ export const article: Article = {
   slug: 'small-packages-big-change',
   title: 'Small packages in the age of AI-written code',
   subtitle: 'When AI agents write most of the code, the unit of change matters more than the unit of deployment.',
+  author: { name: 'Elvis Magagula', role: 'OSS Maintainer' },
   category: 'Architecture',
   tags: ['npm', 'plugins', 'ai-coding', 'modularity', 'ddd'],
   date: '2026-05-01',

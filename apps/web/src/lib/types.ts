@@ -1,12 +1,19 @@
+export interface Author {
+  name: string
+  role?: string
+}
+
 export interface Article {
   slug: string
   title: string
   subtitle: string
+  author: Author
   category: Category
   tags: string[]
   date: string
   readTime: string
   coverColor: string
+  featured?: boolean
   blocks: ContentBlock[]
 }
 

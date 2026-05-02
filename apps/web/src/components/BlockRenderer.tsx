@@ -19,7 +19,7 @@ export function BlockRenderer({ blocks }: BlockRendererProps) {
 function RenderBlock({ block }: { block: ContentBlock }) {
   switch (block.type) {
     case 'paragraph':
-      return <p className="text-[16px] leading-[1.8]" style={{ color: 'var(--body)' }}>{block.text}</p>
+      return <p className="text-[16px] leading-[1.8]" style={{ color: 'var(--body)' }} dangerouslySetInnerHTML={{ __html: renderInlineLinks(block.text) }} />
 
     case 'heading':
       return <h2 className="text-[22px] font-bold mt-10 mb-4" style={{ color: 'var(--text-heading)' }}>{block.text}</h2>
@@ -203,4 +203,11 @@ function CodeBlock({ code, title, language }: { code: string; title?: string; la
 
 function escapeHtml(str: string): string {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;')
+}
+
+function renderInlineLinks(text: string): string {
+  return escapeHtml(text).replace(
+    /\[([^\]]+)\]\(([^)]+)\)/g,
+    '<a href="$2" target="_blank" rel="noopener noreferrer" style="text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px;color:inherit">$1</a>'
+  )
 }

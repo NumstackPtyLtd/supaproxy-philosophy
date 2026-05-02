@@ -2,6 +2,7 @@ import type { Article } from '../lib/types'
 import { article as whySupaproxy } from './why-supaproxy'
 import { article as whyNpmPackages } from './why-npm-packages'
 import { article as guardrailsVision } from './guardrails-vision'
+import { article as openSourceSustainability } from './open-source-sustainability'
 
 /**
  * All articles, newest first.
@@ -11,6 +12,7 @@ import { article as guardrailsVision } from './guardrails-vision'
  * 3. Import and add to this array
  */
 export const ARTICLES: Article[] = [
+  openSourceSustainability,
   guardrailsVision,
   whyNpmPackages,
   whySupaproxy,

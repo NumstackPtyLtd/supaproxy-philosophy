@@ -4,6 +4,7 @@ export const article: Article = {
   slug: 'guardrails-not-features',
   title: 'Guardrails are not features',
   subtitle: 'Every industry has different compliance needs. A platform that hardcodes its guardrails serves none of them well.',
+  author: { name: 'Elvis Magagula', role: 'OSS Maintainer' },
   category: 'Vision',
   tags: ['guardrails', 'compliance', 'extensibility', 'pipeline'],
   date: '2026-05-02',

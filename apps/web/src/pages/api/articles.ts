@@ -1,6 +1,8 @@
 import type { APIRoute } from 'astro';
 import { ARTICLES } from '../../content';
 
+export const prerender = false;
+
 export const GET: APIRoute = async () => {
   const articles = ARTICLES.map(a => ({
     slug: a.slug,

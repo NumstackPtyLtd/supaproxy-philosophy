@@ -1,40 +1,45 @@
 import type { Article } from '../lib/types'
 
 export const article: Article = {
-  slug: 'why-a-proxy',
-  title: 'What if AI had a governance layer?',
-  subtitle: 'Every company will route AI traffic. The question is whether they will see what flows through.',
+  slug: 'why-teams-should-care',
+  title: 'Why teams should care about AI governance',
+  subtitle: 'Companies embracing AI are moving faster. They are also widening the vulnerability gap faster than anyone wants to admit.',
+  author: { name: 'Elvis Magagula', role: 'OSS Maintainer' },
   category: 'Philosophy',
-  tags: ['governance', 'ai-operations', 'proxy-pattern', 'visibility'],
+  tags: ['governance', 'ai-operations', 'security', 'leadership'],
   date: '2026-04-15',
-  readTime: '3 min',
+  readTime: '5 min',
   coverColor: '#0f172a',
   blocks: [
-    { type: 'paragraph', text: 'AI agents are becoming the primary interface between employees and organisational data. They query databases, call APIs, draft documents. The speed is intoxicating. The visibility is zero.' },
+    { type: 'paragraph', text: 'Companies that are embracing AI are moving faster than companies that are not. That part is obvious and well-documented. What is less discussed is the other side of that speed. These same companies are exponentially widening their vulnerability gap. The faster they adopt, the wider it gets.' },
 
-    { type: 'heading', text: 'The invisible highway' },
-    { type: 'paragraph', text: 'Most AI traffic today flows directly from the employee to the model provider. No logging. No screening. No cost tracking. The organisation has no visibility into what data leaves its infrastructure, what questions are being asked, or what answers are being given.' },
-    { type: 'paragraph', text: 'This is not a theoretical risk. It is a structural blind spot.' },
+    { type: 'heading', text: 'The pressure to ship' },
+    { type: 'paragraph', text: 'Teams are adopting AI tools with no clear plan for how they will keep their customers safe. This is not because the teams are careless. It is because the pressure to innovate with AI comes from the top down. Management reads about competitors using AI to cut costs, boards ask why the company is falling behind, and the directive trickles down to engineering and product teams who are expected to integrate AI into everything.' },
+    { type: 'paragraph', text: 'The people pushing hardest for AI adoption are often those furthest from the implementation. They see the productivity gains. They do not see the employee who just sent a client\'s financial details to a third-party model because the AI assistant had no guardrails. They do not see the API key that was pasted into a prompt. They do not see the internal project codename that is now part of a training dataset somewhere.' },
 
-    { type: 'callout', variant: 'insight', title: 'The question', text: 'What if every AI query passed through a single, observable layer? Not to slow things down, but to see them. To understand them. To govern them.' },
+    { type: 'callout', variant: 'warning', title: 'The uncomfortable truth', text: 'More often than not, the urgency to adopt AI is driven by those who prioritise speed over security. Not because they do not care about security, but because they do not yet understand what AI-specific security looks like.' },
 
-    { type: 'heading', text: 'The proxy pattern' },
-    { type: 'paragraph', text: 'Web proxies have existed for decades. They sit between clients and servers, providing visibility, caching, security, and routing. The same pattern applied to AI traffic creates a governance layer. One place to log, screen, route, and enforce policy.' },
-    { type: 'paragraph', text: 'The proxy does not own the models. It does not own the data. It sits between them and provides the oversight that neither can provide alone.' },
+    { type: 'heading', text: 'AI security is not traditional security' },
+    { type: 'paragraph', text: 'Traditional application security has well-understood patterns. Input validation. Authentication. Authorization. Encryption at rest and in transit. Teams know these problems and have tools for them.' },
+    { type: 'paragraph', text: 'AI introduces a new category of risk that most security frameworks do not cover. The risk is not that someone breaks into your system. It is that your own employees, using tools you gave them, send sensitive data to external model providers as part of their normal workflow. The attack surface is not a vulnerability. It is a feature working as intended, without boundaries.' },
 
-    { type: 'heading', text: 'What becomes possible' },
+    { type: 'heading', text: 'What governance actually means' },
+    { type: 'paragraph', text: 'AI governance is not about slowing down adoption. It is about making adoption sustainable. A team that deploys AI with guardrails can move faster over time because they do not have to stop and deal with data incidents, regulatory inquiries, or the reputational fallout of a preventable breach.' },
     { type: 'list', items: [
-      'Visibility into what questions employees ask AI, across every team.',
-      'Screening for sensitive data before it reaches a third-party model.',
-      'Cost attribution to the team, user, and use case that generated it.',
-      'Routing decisions that match the right model to the right purpose.',
-      'Compliance evidence that data handling policies were enforced.',
+      'Visibility means knowing what questions your teams are asking AI, and what data is leaving your infrastructure.',
+      'Screening means catching sensitive content before it reaches a model provider, not after.',
+      'Cost attribution means understanding which teams and use cases are driving spend, so you can optimise instead of guessing.',
+      'Compliance evidence means being able to prove to a regulator that your data handling policies were enforced, not just written.',
     ]},
 
-    { type: 'heading', text: 'Where the value lives' },
-    { type: 'paragraph', text: 'Should the governance layer be proprietary or open source? If you are asking organisations to route all AI traffic through a single point, does that point need to be auditable? There is a strong argument that the proxy itself is infrastructure and should be transparent. The value lives in what you layer on top of it. The guardrails, the compliance evidence, the industry-specific extensions that make the proxy useful for a particular sector.' },
-    { type: 'paragraph', text: 'This is a separation of concerns question at the business model level, not just the code level. Infrastructure wants to be open. Intelligence wants to be differentiated. Getting the boundary right between the two is the interesting design problem.' },
+    { type: 'heading', text: 'The governance layer' },
+    { type: 'paragraph', text: 'Web proxies have existed for decades. They sit between clients and servers, providing visibility, caching, security, and routing. The same pattern applied to AI traffic creates a governance layer. One place to log, screen, route, and enforce policy.' },
+    { type: 'paragraph', text: 'The proxy does not own the models. It does not own the data. It sits between them and provides the oversight that neither can provide alone. Every query passes through it. Every response passes back through it. The organisation gets to decide what is acceptable and what is not, rather than hoping employees make the right call every time.' },
 
-    { type: 'callout', variant: 'principle', title: 'A principle worth exploring', text: 'Infrastructure should be open. The intelligence layered on top of it is where differentiation lives.' },
+    { type: 'heading', text: 'Who owns this problem?' },
+    { type: 'paragraph', text: 'The difficult part is that AI governance does not fit neatly into any existing team\'s responsibility. Security teams understand risk but may not understand AI workflows. Engineering teams understand the tools but may not understand compliance requirements. Legal teams understand the regulatory landscape but may not understand what data flows through an AI query.' },
+    { type: 'paragraph', text: 'The companies that get this right will be the ones that recognise AI governance as a cross-functional concern, not a checkbox for any single team. It requires security thinking, engineering capability, and regulatory awareness working together. The tooling needs to be accessible to all three, not locked behind any one discipline.' },
+
+    { type: 'callout', variant: 'principle', title: 'The real question', text: 'The question is not whether your company should adopt AI. It is whether your company is prepared to govern what AI does with your data once you do.' },
   ],
 }
