@@ -1,0 +1,8 @@
+{
+  "name": "supaproxy-design",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter @philosophy/web dev",
+    "build": "pnpm --filter @philosophy/web build"
+  }
+}
