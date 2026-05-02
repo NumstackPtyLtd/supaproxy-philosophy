@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react'
 import type { ContentBlock } from '../lib/types'
 import { Lightbulb, BookOpen, AlertTriangle } from 'lucide-react'
 
@@ -102,52 +101,30 @@ function RenderBlock({ block }: { block: ContentBlock }) {
 }
 
 function MermaidBlock({ diagram, caption }: { diagram: string; caption?: string }) {
-  const ref = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    let cancelled = false
-
-    async function render() {
-      const mermaid = (await import('mermaid')).default
-      mermaid.initialize({
-        startOnLoad: false,
-        theme: 'default',
-        fontFamily: 'Inter, system-ui, sans-serif',
-        flowchart: { curve: 'monotoneX', padding: 20, htmlLabels: true },
-        themeVariables: {
-          primaryColor: '#e2e8f0',
-          primaryTextColor: '#0f172a',
-          primaryBorderColor: '#cbd5e1',
-          lineColor: '#94a3b8',
-          secondaryColor: '#f1f5f9',
-          tertiaryColor: '#ffffff',
-        },
-      })
-
-      if (cancelled || !ref.current) return
-
-      try {
-        const id = `mermaid-${Math.random().toString(36).slice(2, 8)}`
-        const { svg } = await mermaid.render(id, diagram)
-        if (!cancelled && ref.current) {
-          ref.current.innerHTML = svg
-        }
-      } catch (err) {
-        console.error('Mermaid render failed:', err)
-        if (ref.current) {
-          ref.current.innerHTML = `<pre style="text-align:left;font-size:12px;color:var(--body)">${diagram}</pre>`
-        }
-      }
-    }
-
-    render()
-    return () => { cancelled = true }
-  }, [diagram])
+  // Parse the mermaid syntax into a simple flow display
+  const steps = diagram
+    .split('\n')
+    .map(l => l.trim())
+    .filter(l => l.includes('-->'))
+    .flatMap(l => {
+      const parts = l.split('-->')
+      return parts.map(p => p.replace(/.*\[/, '').replace(/\].*/, '').replace(/.*\{/, '').replace(/\}.*/, '').replace(/\|.*\|/, '').trim())
+    })
+    .filter((v, i, a) => v && a.indexOf(v) === i)
 
   return (
-    <div className="my-6 rounded-xl p-6 text-center overflow-x-auto" style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)' }}>
-      <div ref={ref} className="flex justify-center [&_svg]:max-w-full" />
-      {caption && <p className="text-[12px] mt-4" style={{ color: 'var(--text-muted)' }}>{caption}</p>}
+    <div className="my-6 rounded-xl p-6 overflow-x-auto" style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)' }}>
+      <div className="flex items-center gap-2 flex-wrap justify-center">
+        {steps.map((step, i) => (
+          <div key={i} className="flex items-center gap-2">
+            {i > 0 && <span className="text-[12px]" style={{ color: 'var(--text-muted)' }}>&rarr;</span>}
+            <span className="text-[12px] font-medium px-3 py-1.5 rounded-lg" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', color: 'var(--text-heading)' }}>
+              {step}
+            </span>
+          </div>
+        ))}
+      </div>
+      {caption && <p className="text-[12px] mt-4 text-center" style={{ color: 'var(--text-muted)' }}>{caption}</p>}
     </div>
   )
 }
