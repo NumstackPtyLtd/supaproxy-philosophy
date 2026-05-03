@@ -70,7 +70,6 @@ export default function PhilosophyPage() {
                 style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)' }}
               >
                 <div className="flex items-center gap-2 mb-4">
-                  <span className="w-2 h-2 rounded-full" style={{ background: feat.coverColor }} />
                   <span className="text-[11px] font-medium" style={{ color: 'var(--text-muted)' }}>Featured</span>
                   <span className="text-[11px]" style={{ color: 'var(--text-muted)' }}>{feat.category}</span>
                   <span className="text-[11px] ml-auto" style={{ color: 'var(--text-muted)' }}>{feat.readTime}</span>

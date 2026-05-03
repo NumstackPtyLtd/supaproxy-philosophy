@@ -10,7 +10,7 @@ export const article: Article = {
   date: '2026-05-02',
   readTime: '6 min',
   coverColor: '#059669',
-  featured: true,
+  featured: false,
   blocks: [
     { type: 'paragraph', text: 'There is a tension at the heart of building safety-critical AI infrastructure. The tools that govern how AI agents handle sensitive data, enforce compliance, and protect users need to be auditable, transparent, and community-owned. But the people who build those tools need to sustain themselves. These two needs are not naturally aligned.' },
 
