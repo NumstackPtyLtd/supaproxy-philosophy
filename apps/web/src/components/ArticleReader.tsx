@@ -70,7 +70,6 @@ export default function ArticleReader({ article }: { article: Article }) {
 function Meta({ article }: { article: Article }) {
   return (
     <div className="flex items-center gap-2 mb-4">
-      <span className="w-2 h-2 rounded-full" style={{ background: article.coverColor }} />
       <span className="text-[11px] font-medium" style={{ color: 'var(--text-muted)' }}>{article.category}</span>
       <span className="text-[12px]" style={{ color: 'var(--text-muted)' }}>{article.date}</span>
       <span className="text-[12px]" style={{ color: 'var(--text-muted)' }}>{article.readTime}</span>
