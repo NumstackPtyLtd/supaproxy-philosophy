@@ -5,6 +5,7 @@ import { article as guardrailsVision } from './guardrails-vision'
 import { article as guardrailMiddleware } from './guardrail-middleware'
 import { article as openSourceSustainability } from './open-source-sustainability'
 import { article as reversiblePrivacy } from './reversible-privacy'
+import { article as entityProxy } from './entity-proxy'
 
 /**
  * All articles, newest first.
@@ -14,6 +15,7 @@ import { article as reversiblePrivacy } from './reversible-privacy'
  * 3. Import and add to this array
  */
 export const ARTICLES: Article[] = [
+  entityProxy,
   reversiblePrivacy,
   guardrailMiddleware,
   openSourceSustainability,
