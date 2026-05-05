@@ -5,6 +5,8 @@ import { article as guardrailsVision } from './guardrails-vision'
 import { article as guardrailMiddleware } from './guardrail-middleware'
 import { article as openSourceSustainability } from './open-source-sustainability'
 import { article as reversiblePrivacy } from './reversible-privacy'
+import { article as entityProxy } from './entity-proxy'
+import { article as semanticPreservation } from './semantic-preservation'
 
 /**
  * All articles, newest first.
@@ -14,13 +16,15 @@ import { article as reversiblePrivacy } from './reversible-privacy'
  * 3. Import and add to this array
  */
 export const ARTICLES: Article[] = [
+  semanticPreservation,
+  entityProxy,
   reversiblePrivacy,
   guardrailMiddleware,
   openSourceSustainability,
   guardrailsVision,
   whyNpmPackages,
   whySupaproxy,
-]
+].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
 export function getArticle(slug: string): Article | undefined {
   return ARTICLES.find(a => a.slug === slug)
