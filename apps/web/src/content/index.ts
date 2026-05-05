@@ -6,7 +6,6 @@ import { article as guardrailMiddleware } from './guardrail-middleware'
 import { article as openSourceSustainability } from './open-source-sustainability'
 import { article as reversiblePrivacy } from './reversible-privacy'
 import { article as entityProxy } from './entity-proxy'
-import { article as semanticPreservation } from './semantic-preservation'
 
 /**
  * All articles, newest first.
@@ -16,7 +15,6 @@ import { article as semanticPreservation } from './semantic-preservation'
  * 3. Import and add to this array
  */
 export const ARTICLES: Article[] = [
-  semanticPreservation,
   entityProxy,
   reversiblePrivacy,
   guardrailMiddleware,
