@@ -10,7 +10,6 @@ export const article: Article = {
   date: '2026-05-03',
   readTime: '7 min',
   coverColor: '#0f172a',
-  featured: true,
   blocks: [
     { type: 'paragraph', text: 'The biggest blocker for enterprise AI adoption is not cost, not accuracy, not hallucinations. It is data. Specifically, the fact that using an AI model requires sending your data to it. For companies that handle customer financial records, patient health data, or privileged legal information, this is not a configuration problem. It is a regulatory wall.' },
 
