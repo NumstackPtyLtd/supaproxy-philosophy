@@ -3,14 +3,17 @@ import { Header, NavLink } from '@supaproxy/ui'
 import { ARTICLES, getArticlesByCategory, ARTICLES_PER_PAGE } from '../content'
 import { CATEGORIES, type Article } from '../lib/types'
 import { ArticleCard } from './ArticleCard'
+import { formatDate } from '../lib/formatters'
 
 export default function PhilosophyPage() {
   const [category, setCategory] = useState<string>('All')
   const [page, setPage] = useState(1)
 
   const filtered = getArticlesByCategory(category)
-  const totalPages = Math.ceil(filtered.length / ARTICLES_PER_PAGE)
-  const visible = filtered.slice((page - 1) * ARTICLES_PER_PAGE, page * ARTICLES_PER_PAGE)
+  const featured = category === 'All' ? filtered.find(a => a.featured) : undefined
+  const nonFeatured = featured ? filtered.filter(a => a !== featured) : filtered
+  const totalPages = Math.ceil(nonFeatured.length / ARTICLES_PER_PAGE)
+  const visible = nonFeatured.slice((page - 1) * ARTICLES_PER_PAGE, page * ARTICLES_PER_PAGE)
 
   return (
     <div style={{ background: 'var(--bg)' }} className="min-h-screen">
@@ -59,39 +62,35 @@ export default function PhilosophyPage() {
             ))}
           </div>
 
-          {/* Featured article */}
-          {category === 'All' && page === 1 && (() => {
-            const feat = visible.find(a => a.featured)
-            if (!feat) return null
-            return (
-              <a
-                href={`/${feat.slug}`}
-                className="block w-full rounded-2xl mb-8 text-left card-hover p-8 md:p-10"
-                style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)' }}
-              >
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="text-[11px] font-medium" style={{ color: 'var(--text-muted)' }}>Featured</span>
-                  <span className="text-[11px]" style={{ color: 'var(--text-muted)' }}>{feat.category}</span>
-                  <span className="text-[11px] ml-auto" style={{ color: 'var(--text-muted)' }}>{feat.readTime}</span>
-                </div>
-                <h2 className="text-[24px] md:text-[30px] font-bold leading-tight mb-3 max-w-[600px]" style={{ color: 'var(--text-heading)', fontFamily: "'Costaline', serif" }}>
-                  {feat.title}
-                </h2>
-                <p className="text-[15px] leading-relaxed max-w-[500px]" style={{ color: 'var(--body)' }}>
-                  {feat.subtitle}
-                </p>
-              </a>
-            )
-          })()}
+          {/* Featured article (separate from pagination) */}
+          {featured && page === 1 && (
+            <a
+              href={`/${featured.slug}`}
+              className="block w-full rounded-2xl mb-8 text-left card-hover p-8 md:p-10"
+              style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)' }}
+            >
+              <div className="flex items-center gap-2 mb-4">
+                <span className="text-[11px] font-medium" style={{ color: 'var(--text-muted)' }}>Featured</span>
+                <span className="text-[11px]" style={{ color: 'var(--text-muted)' }}>{featured.category}</span>
+                <span className="text-[11px] ml-auto" style={{ color: 'var(--text-muted)' }}>{formatDate(featured.date)}</span>
+              </div>
+              <h2 className="text-[24px] md:text-[30px] font-bold leading-tight mb-3 max-w-[600px]" style={{ color: 'var(--text-heading)', fontFamily: "'Costaline', serif" }}>
+                {featured.title}
+              </h2>
+              <p className="text-[15px] leading-relaxed max-w-[500px]" style={{ color: 'var(--body)' }}>
+                {featured.subtitle}
+              </p>
+            </a>
+          )}
 
-          {/* Article grid */}
+          {/* Article grid (excludes featured) */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {visible.filter(a => !(category === 'All' && page === 1 && a.featured)).map(article => (
+            {visible.map(article => (
               <ArticleCard key={article.slug} article={article} />
             ))}
           </div>
 
-          {visible.filter(a => !(category === 'All' && page === 1 && a.featured)).length === 0 && !visible.find(a => a.featured) && (
+          {visible.length === 0 && !featured && (
             <p className="text-center text-[14px] py-16" style={{ color: 'var(--text-muted)' }}>No articles in this category yet.</p>
           )}
 

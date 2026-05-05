@@ -22,7 +22,7 @@ export const ARTICLES: Article[] = [
   guardrailsVision,
   whyNpmPackages,
   whySupaproxy,
-]
+].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
 export function getArticle(slug: string): Article | undefined {
   return ARTICLES.find(a => a.slug === slug)
