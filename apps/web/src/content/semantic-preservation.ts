@@ -108,5 +108,20 @@ export const article: Article = {
 
     { type: 'paragraph', text: 'This is the same philosophy behind small npm packages and bounded contexts. Each encryption plugin is one file, one entity type, one set of format rules. It can be built in a single session. It can be tested in isolation. It can be maintained by the compliance team who understands the format, not the platform team who built the pipeline. The person who knows what an SA ID encodes is the person who should write the encryptor for it.' },
     { type: 'paragraph', text: 'The platform ships with sensible defaults: names map to names, numbers preserve digit count, emails keep valid structure, phone numbers keep their format. These cover the common cases without any configuration. But when an organisation needs demographic-aware ID encryption or jurisdiction-preserving account numbers, they install a package that handles it. No platform changes required. No waiting for a feature request. The interface is there. The capability is theirs to build.' },
+
+    { type: 'heading', text: 'Self-hosted and cloud' },
+    { type: 'paragraph', text: 'For organisations that self-host, encryption packages are npm modules installed alongside the engine. The code runs on their infrastructure, processes their data, and never leaves their network. Trust is straightforward. They wrote it, they deployed it, they control it.' },
+    { type: 'paragraph', text: 'Cloud changes the delivery mechanism but not the interface. An organisation uploads the package through the dashboard or publishes it to a Veil registry. The platform runs it in a sandboxed isolate on their behalf. The encryption still happens before data reaches the AI model. The package code never leaves the Veil cloud. The contract is identical: encrypt(value, salt) returns a string.' },
+    { type: 'paragraph', text: 'The difference is trust. A self-hoster trusts their own code because it runs on their own machines. A cloud user is uploading encryption logic to someone else\'s infrastructure. The package sees real data. It has to. That is what it encrypts. So the platform needs guardrails around the package itself.' },
+
+    { type: 'list', items: [
+      'Sandboxed execution. V8 isolates or equivalent. No network access, no filesystem, no side channels. The package receives a value and a salt. It returns a string. Nothing else.',
+      'Audit logging. Every invocation recorded with metadata (entity type, timing, package version) but never the values themselves. The organisation can verify their package is being called correctly without the platform seeing the data.',
+      'Package signing and versioning. Every upload is immutable and signed. Rolling back to a previous version is one click. The organisation knows exactly which code is running.',
+      'Source review. The option to inspect the package source before enabling it in production. No obfuscated code. No minified bundles. The compliance team can read what the encryptor does.',
+    ] },
+
+    { type: 'paragraph', text: 'This matters because encryption packages sit at the most sensitive point in the entire pipeline. They are the last piece of code that touches real data before it becomes protected. The platform must treat them accordingly, whether they run on the organisation\'s hardware or in a managed cloud.' },
+    { type: 'paragraph', text: 'But the interface stays the same. An encryptor built for self-hosted deployment works in the cloud without modification. An encryptor tested locally against sample data behaves identically in production. The delivery changes. The contract does not.' },
   ],
 }
