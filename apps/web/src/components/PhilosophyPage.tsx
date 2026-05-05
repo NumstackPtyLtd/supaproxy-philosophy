@@ -3,6 +3,7 @@ import { Header, NavLink } from '@supaproxy/ui'
 import { ARTICLES, getArticlesByCategory, ARTICLES_PER_PAGE } from '../content'
 import { CATEGORIES, type Article } from '../lib/types'
 import { ArticleCard } from './ArticleCard'
+import { formatDate } from '../lib/formatters'
 
 export default function PhilosophyPage() {
   const [category, setCategory] = useState<string>('All')
@@ -71,7 +72,7 @@ export default function PhilosophyPage() {
               <div className="flex items-center gap-2 mb-4">
                 <span className="text-[11px] font-medium" style={{ color: 'var(--text-muted)' }}>Featured</span>
                 <span className="text-[11px]" style={{ color: 'var(--text-muted)' }}>{featured.category}</span>
-                <span className="text-[11px] ml-auto" style={{ color: 'var(--text-muted)' }}>{featured.readTime}</span>
+                <span className="text-[11px] ml-auto" style={{ color: 'var(--text-muted)' }}>{formatDate(featured.date)}</span>
               </div>
               <h2 className="text-[24px] md:text-[30px] font-bold leading-tight mb-3 max-w-[600px]" style={{ color: 'var(--text-heading)', fontFamily: "'Costaline', serif" }}>
                 {featured.title}

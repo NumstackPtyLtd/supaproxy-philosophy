@@ -1,4 +1,5 @@
 import type { Article } from '../lib/types'
+import { formatDate } from '../lib/formatters'
 
 export function ArticleCard({ article }: { article: Article }) {
   return (
@@ -11,7 +12,7 @@ export function ArticleCard({ article }: { article: Article }) {
         <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full" style={{ background: 'var(--bg-surface)', color: 'var(--body)' }}>
           {article.category}
         </span>
-        <span className="text-[11px]" style={{ color: 'var(--text-muted)' }}>{article.readTime}</span>
+        <span className="text-[11px] ml-auto" style={{ color: 'var(--text-muted)' }}>{formatDate(article.date)}</span>
       </div>
 
       <h3
