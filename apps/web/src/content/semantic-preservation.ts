@@ -83,6 +83,30 @@ export const article: Article = {
     { type: 'heading', text: 'Building for the spectrum' },
     { type: 'paragraph', text: 'The practical path forward is a layered system. At the base layer, structural format preservation: a name becomes a name, a number becomes a number. This is table stakes and should work out of the box. Above that, semantic preservation rules that organizations configure per entity type and per domain. These are the rules that say "preserve the age bracket in SA IDs" or "derive the email from the avatar name." At the top, cross-entity consistency that ensures the fictional identity holds together under cross-reference.' },
     { type: 'paragraph', text: 'Each layer adds complexity and configuration cost. Not every organization needs all three. A customer support chatbot may only need structural preservation. A credit scoring engine needs all three. The platform must support the full spectrum without forcing the full cost on every deployment.' },
-    { type: 'paragraph', text: 'What every organization must do is think carefully about which layer they need. That thinking cannot be automated. It requires understanding what the AI model actually does with the data, which fields it infers from, and which semantic relationships it depends on. The platform can provide the tools, the documentation, and the audit trail. But the decision is theirs.' },
+    { type: 'paragraph', text: 'What every organisation must do is think carefully about which layer they need. That thinking cannot be automated. It requires understanding what the AI model actually does with the data, which fields it infers from, and which semantic relationships it depends on. The platform can provide the tools, the documentation, and the audit trail. But the decision is theirs.' },
+
+    { type: 'heading', text: 'Encryption as packages' },
+    { type: 'paragraph', text: 'The guardrails architecture in Supaproxy solved a similar problem. The platform owns the pipeline. Domain experts own the transformation logic. Guardrail plugins expose a standard interface. The platform runs them. The plugin author decides what they do. The same pattern applies to encryption.' },
+    { type: 'paragraph', text: 'An encryption package is a small, self-contained module that knows how to encrypt and decrypt one entity type. It exposes a standard interface: encrypt a value, decrypt a value, declare what entity type it handles, and describe what semantic dimensions it preserves. The platform discovers these packages at runtime, registers them per entity type, and routes values through the right encryptor during the privacy pipeline.' },
+
+    { type: 'code', language: 'typescript', title: 'Encryption plugin interface', code: `interface EncryptionPlugin {
+  readonly id: string
+  readonly name: string
+  readonly entityType: string
+  readonly preserves: string[]  // e.g. ['age_bracket', 'gender', 'check_digit']
+
+  encrypt(value: string, salt: string): string
+  decrypt(encrypted: string, salt: string): string
+  validate?(value: string): boolean
+}` },
+
+    { type: 'paragraph', text: 'A bank builds @acme/sa-id-encryptor. It parses the thirteen-digit format, extracts date of birth and gender, shifts the DOB by a deterministic offset that keeps the person in the same five-year age bracket, preserves the gender digit, randomises the sequence, and recomputes the Luhn check digit. The result is a valid SA ID that encodes the right demographics for a person who does not exist.' },
+    { type: 'paragraph', text: 'An insurer builds @insurance-co/policy-encryptor. It preserves the product prefix (POL-, LIF-, VEH-) because the AI uses it to determine claim type, randomises the numeric portion, and preserves the branch code if the format includes one. The AI routes the claim correctly. The policy number is fake.' },
+    { type: 'paragraph', text: 'A healthcare provider builds @health-co/patient-id-encryptor. It preserves the facility code and the year of admission because those affect treatment protocol lookups. Everything else changes.' },
+
+    { type: 'callout', variant: 'principle', title: 'The plugin contract', text: 'The platform provides the pipeline, the registry, and the default encryptors that handle common formats out of the box. Organisations bring their own packages for entity types where the format carries domain-specific meaning. The interface is the contract. The implementation is theirs.' },
+
+    { type: 'paragraph', text: 'This is the same philosophy behind small npm packages and bounded contexts. Each encryption plugin is one file, one entity type, one set of format rules. It can be built in a single session. It can be tested in isolation. It can be maintained by the compliance team who understands the format, not the platform team who built the pipeline. The person who knows what an SA ID encodes is the person who should write the encryptor for it.' },
+    { type: 'paragraph', text: 'The platform ships with sensible defaults: names map to names, numbers preserve digit count, emails keep valid structure, phone numbers keep their format. These cover the common cases without any configuration. But when an organisation needs demographic-aware ID encryption or jurisdiction-preserving account numbers, they install a package that handles it. No platform changes required. No waiting for a feature request. The interface is there. The capability is theirs to build.' },
   ],
 }
