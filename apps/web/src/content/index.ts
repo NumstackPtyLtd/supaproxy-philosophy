@@ -7,6 +7,7 @@ import { article as openSourceSustainability } from './open-source-sustainabilit
 import { article as reversiblePrivacy } from './reversible-privacy'
 import { article as entityProxy } from './entity-proxy'
 import { article as semanticPreservation } from './semantic-preservation'
+import { article as memoryAndTrust } from './memory-and-trust'
 import { article as retrievalGap } from './retrieval-gap'
 
 /**
@@ -17,6 +18,7 @@ import { article as retrievalGap } from './retrieval-gap'
  * 3. Import and add to this array
  */
 export const ARTICLES: Article[] = [
+  memoryAndTrust,
   retrievalGap,
   semanticPreservation,
   entityProxy,
