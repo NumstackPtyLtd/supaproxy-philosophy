@@ -15,7 +15,7 @@ export const article: Article = {
     { type: 'paragraph', text: 'In the previous article on reversible privacy, we described a proxy that encrypts data before it reaches an AI model and decrypts the response before it reaches the user. The encryption itself is straightforward. Format-preserving, deterministic, salt-based. The part we left deliberately open was the hard part: how do you detect the entities that need encrypting?' },
 
     { type: 'heading', text: 'The detection problem' },
-    { type: 'paragraph', text: 'Consider a real input: "My naam is Elvis Magagulr and I want a refund. My policy is Pol-123". Three problems in one sentence. "naam" is Afrikaans for "name" — multilingual input. "Magagulr" is a misspelling. "Pol-123" is a domain-specific identifier that no generic system knows about. A regex catches none of this. Standard NER might catch the name if it is spelled correctly, but it will miss the policy number because that is not a universal entity type.' },
+    { type: 'paragraph', text: 'Consider a real input: "My naam is Elvis Magagulr and I want a refund. My policy is Pol-123". Three problems in one sentence. "naam" is Afrikaans for "name", multilingual input. "Magagulr" is a misspelling. "Pol-123" is a domain-specific identifier that no generic system knows about. A regex catches none of this. Standard NER might catch the name if it is spelled correctly, but it will miss the policy number because that is not a universal entity type.' },
     { type: 'paragraph', text: 'The instinct is to use an LLM for entity detection. But that defeats the entire purpose. If you send the raw text to a model for entity extraction, you have already exposed the data you were trying to protect. The detection must happen locally, on-premise, before anything leaves the infrastructure.' },
 
     { type: 'heading', text: 'Structured extraction, not inline replacement' },
@@ -48,18 +48,18 @@ export const article: Article = {
     { type: 'paragraph', text: 'These thresholds are configurable per company and per entity type. A bank might set customer names to 0.90 (strict) and product names to 0.80 (relaxed). A healthcare provider might set patient names to 0.85 but medication names to 0.95 to avoid false positives that break clinical context.' },
 
     { type: 'heading', text: 'Zero-shot new entity types' },
-    { type: 'paragraph', text: 'One of the most powerful properties of this architecture is extensibility. When a company wants to protect a new entity type — say branch names, or internal project codes — they do not change any code. They create a new collection in the vector store, embed their branch names with their encrypted avatars, and the system immediately starts detecting and encrypting them.' },
+    { type: 'paragraph', text: 'One of the most powerful properties of this architecture is extensibility. When a company wants to protect a new entity type, say branch names or internal project codes, they do not change any code. They create a new collection in the vector store, embed their branch names with their encrypted avatars, and the system immediately starts detecting and encrypting them.' },
     { type: 'paragraph', text: 'This is configuration, not development. An operations team can add new entity types without touching the proxy code, without retraining a model, without writing regex patterns. They upload a CSV of real values and encrypted replacements, the system embeds them, and protection begins.' },
 
     { type: 'heading', text: 'Semantic caching on encrypted data' },
-    { type: 'paragraph', text: 'The structured, encrypted query can itself be embedded and cached. If a different user asks a similar question about the same encrypted customer, the cache returns the encrypted response directly. The LLM is never called. Since the encryption is deterministic per company — same customer always maps to the same avatar — the cache is both safe and effective.' },
+    { type: 'paragraph', text: 'The structured, encrypted query can itself be embedded and cached. If a different user asks a similar question about the same encrypted customer, the cache returns the encrypted response directly. The LLM is never called. Since the encryption is deterministic per company (same customer always maps to the same avatar), the cache is both safe and effective.' },
     { type: 'paragraph', text: 'A cache miss costs the full pipeline: NER, vector search, encryption, LLM call, decryption. A cache hit costs one vector search. Over time, as the system handles more queries, the hit rate climbs and the average latency drops below what a raw LLM call would cost. The privacy layer, paradoxically, makes the system faster.' },
 
     { type: 'comparison', left: { title: 'Regex approach', items: [
       'Requires a pattern for every entity format.',
       'Cannot handle misspellings or variations.',
       'Adding new entity types means writing new code.',
-      'No confidence scoring — match or no match.',
+      'No confidence scoring. Match or no match.',
       'Breaks on multilingual input.',
     ]}, right: { title: 'Vector entity store approach', items: [
       'One architecture for all entity types.',
@@ -70,9 +70,9 @@ export const article: Article = {
     ]}},
 
     { type: 'heading', text: 'What this means for Veil' },
-    { type: 'paragraph', text: 'Veil is not an encryption layer. It is a structured entity proxy with a vector-backed entity store. The encryption part — format-preserving, deterministic, salt-based — is the easy bit. The hard bit is entity detection, and that becomes a vector similarity problem, which has known solutions, battle-tested infrastructure, and predictable performance characteristics.' },
+    { type: 'paragraph', text: 'Veil is not an encryption layer. It is a structured entity proxy with a vector-backed entity store. The encryption part (format-preserving, deterministic, salt-based) is the easy bit. The hard bit is entity detection, and that becomes a vector similarity problem, which has known solutions, battle-tested infrastructure, and predictable performance characteristics.' },
     { type: 'paragraph', text: 'The pipeline is: local NER extracts candidates into structure. Vector search confirms identity and retrieves encrypted avatars. The structured, encrypted representation goes to the LLM. The LLM response is decrypted using the same entity store. Nothing real leaves the company\'s infrastructure. Nothing real is stored in caches. Nothing real appears in logs.' },
 
-    { type: 'callout', variant: 'insight', title: 'The reframe', text: 'The question was never "how do you encrypt data for AI?" — encryption is solved. The question was "how do you detect what to encrypt without using AI?" The answer is: you do not detect in text. You extract into structure, then confirm with vector search. Detection becomes retrieval. And retrieval is a problem we know how to scale.' },
+    { type: 'callout', variant: 'insight', title: 'The reframe', text: 'The question was never "how do you encrypt data for AI?". Encryption is solved. The question was "how do you detect what to encrypt without using AI?" The answer is: you do not detect in text. You extract into structure, then confirm with vector search. Detection becomes retrieval. And retrieval is a problem we know how to scale.' },
   ],
 }
