@@ -17,8 +17,8 @@ importers:
         specifier: ^5.0.3
         version: 5.0.4(@types/react-dom@19.2.3)(@types/react@19.2.14)(react-dom@19.2.5)(react@19.2.5)
       '@supaproxy/ui':
-        specifier: ^0.2.4
-        version: 0.2.4(lucide-react@1.14.0)(react-dom@19.2.5)(react@19.2.5)
+        specifier: ^0.2.6
+        version: 0.2.6(lucide-react@1.14.0)(react-dom@19.2.5)(react@19.2.5)
       '@tailwindcss/vite':
         specifier: ^4.2.4
         version: 4.2.4(vite@8.0.12)
@@ -1311,8 +1311,8 @@ packages:
     resolution: {integrity: sha512-83yeghZ2xxin3Nj8z1NMd/NCuca+gsYXswywDy5bHvwlWL8tpTQmzGeUuHd9FC3E/SBEMvzJRwWEOz5gGes9Qg==}
     dev: false
 
-  /@supaproxy/ui@0.2.4(lucide-react@1.14.0)(react-dom@19.2.5)(react@19.2.5):
-    resolution: {integrity: sha512-Eh8uUBcw4cK8siw2OA2JMmhO6+F4RDXXLJtfRVXl6Fyu7oxraoQvuJvZ7xPhD2FEcmrXyPVuHK4Xs4qg4QvkRw==}
+  /@supaproxy/ui@0.2.6(lucide-react@1.14.0)(react-dom@19.2.5)(react@19.2.5):
+    resolution: {integrity: sha512-upCHLJfGzwoQxtNKytZ5QtuvuHP9sRbZcx/9njJ1+SBs5rRorkk9FijQzuSpDjbskTAzHAfulLpzUUN7lKn6yQ==}
     peerDependencies:
       lucide-react: '>=0.300.0'
       react: '>=18'
