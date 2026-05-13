@@ -33,23 +33,23 @@ export default function PhilosophyPage() {
       />
 
       <main className="pt-14">
-        <div className="max-w-[860px] mx-auto px-6 pt-16 pb-10 text-center">
-          <h1 className="text-[36px] md:text-[48px] font-bold leading-tight mb-4" style={{ color: 'var(--text-heading)' }}>
+        <div className="max-w-[720px] mx-auto px-6 pt-12 pb-8 text-center">
+          <h1 className="text-[24px] md:text-[32px] font-bold leading-tight mb-2 tracking-tight" style={{ color: 'var(--text-heading)' }}>
             The Philosophy
           </h1>
-          <p className="text-[17px] max-w-[520px] mx-auto" style={{ color: 'var(--body)' }}>
+          <p className="text-[13px] max-w-[400px] mx-auto" style={{ color: 'var(--text-muted)' }}>
             Design decisions, architecture thinking, and the principles behind SupaProxy.
           </p>
         </div>
 
-        <div className="max-w-[960px] mx-auto px-6 pb-20">
+        <div className="max-w-[820px] mx-auto px-6 pb-16">
           {/* Category pills */}
-          <div className="flex gap-2 mb-10 justify-center flex-wrap">
+          <div className="flex gap-1.5 mb-8 justify-center flex-wrap">
             {['All', ...CATEGORIES].map(cat => (
               <button
                 key={cat}
                 onClick={() => { setCategory(cat); setPage(1) }}
-                className="px-4 py-2 rounded-full text-[13px] font-medium cursor-pointer transition-all"
+                className="px-3 py-1.5 rounded-full text-[11px] font-medium cursor-pointer transition-all"
                 style={{
                   background: category === cat ? 'var(--color-accent)' : 'var(--bg-card)',
                   color: category === cat ? '#fff' : 'var(--body)',
@@ -65,18 +65,18 @@ export default function PhilosophyPage() {
           {featured && page === 1 && (
             <a
               href={`/${featured.slug}`}
-              className="block w-full rounded-2xl mb-8 text-left card-hover p-8 md:p-10"
+              className="block w-full rounded-xl mb-6 text-left card-hover p-6"
               style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)' }}
             >
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-[11px] font-medium" style={{ color: 'var(--text-muted)' }}>Featured</span>
-                <span className="text-[11px]" style={{ color: 'var(--text-muted)' }}>{featured.category}</span>
-                <span className="text-[11px] ml-auto" style={{ color: 'var(--text-muted)' }}>{formatDate(featured.date)}</span>
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full" style={{ background: 'var(--color-accent-bg)', color: 'var(--color-accent-text)' }}>Featured</span>
+                <span className="text-[10px]" style={{ color: 'var(--text-muted)' }}>{featured.category}</span>
+                <span className="text-[10px] ml-auto" style={{ color: 'var(--text-muted)' }}>{formatDate(featured.date)}</span>
               </div>
-              <h2 className="text-[24px] md:text-[30px] font-bold leading-tight mb-3 max-w-[600px]" style={{ color: 'var(--text-heading)', fontFamily: "'Costaline', serif" }}>
+              <h2 className="text-[18px] md:text-[22px] font-bold leading-tight mb-2 max-w-[500px]" style={{ color: 'var(--text-heading)', fontFamily: "'Costaline', serif" }}>
                 {featured.title}
               </h2>
-              <p className="text-[15px] leading-relaxed max-w-[500px]" style={{ color: 'var(--body)' }}>
+              <p className="text-[13px] leading-relaxed max-w-[440px]" style={{ color: 'var(--body)' }}>
                 {featured.subtitle}
               </p>
             </a>

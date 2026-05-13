@@ -18,15 +18,15 @@ export function BlockRenderer({ blocks }: BlockRendererProps) {
 function RenderBlock({ block }: { block: ContentBlock }) {
   switch (block.type) {
     case 'paragraph':
-      return <p className="text-[16px] leading-[1.8]" style={{ color: 'var(--body)' }} dangerouslySetInnerHTML={{ __html: renderInlineLinks(block.text) }} />
+      return <p className="text-[14px] leading-[1.8]" style={{ color: 'var(--body)' }} dangerouslySetInnerHTML={{ __html: renderInlineLinks(block.text) }} />
 
     case 'heading':
-      return <h2 className="text-[22px] font-bold mt-10 mb-4" style={{ color: 'var(--text-heading)' }}>{block.text}</h2>
+      return <h2 className="text-[18px] font-bold mt-8 mb-3" style={{ color: 'var(--text-heading)' }}>{block.text}</h2>
 
     case 'quote':
       return (
-        <blockquote className="pl-5 py-1 my-6" style={{ borderLeft: '3px solid var(--border-light)' }}>
-          <p className="text-[16px] italic leading-relaxed" style={{ color: 'var(--body)' }}>{block.text}</p>
+        <blockquote className="pl-5 py-1 my-5" style={{ borderLeft: '3px solid var(--border-light)' }}>
+          <p className="text-[14px] italic leading-relaxed" style={{ color: 'var(--body)' }}>{block.text}</p>
           {block.author && <cite className="block text-[13px] mt-2 not-italic" style={{ color: 'var(--text-muted)' }}>{block.author}</cite>}
         </blockquote>
       )
@@ -35,7 +35,7 @@ function RenderBlock({ block }: { block: ContentBlock }) {
       return (
         <ul className="space-y-2 pl-5">
           {block.items.map((item, i) => (
-            <li key={i} className="text-[15px] leading-relaxed list-disc" style={{ color: 'var(--body)' }}>{item}</li>
+            <li key={i} className="text-[13px] leading-relaxed list-disc" style={{ color: 'var(--body)' }}>{item}</li>
           ))}
         </ul>
       )

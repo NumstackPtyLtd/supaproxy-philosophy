@@ -16,22 +16,22 @@ export default function ArticleReader({ article }: { article: Article }) {
       <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
         <Header brand={headerBrand} />
         <div style={{ background: 'var(--bg-surface)' }}>
-          <div className="max-w-[960px] mx-auto px-6 pt-24 pb-14">
+          <div className="max-w-[760px] mx-auto px-6 pt-20 pb-12">
             <a href="/" className="flex items-center gap-1.5 text-[13px] mb-8 transition-opacity hover:opacity-70" style={{ color: 'var(--body)' }}>
               <ArrowLeft size={14} /> All articles
             </a>
             <Meta article={article} />
-            <h1 className="text-[36px] md:text-[48px] font-bold leading-[1.1] mb-5 max-w-[700px]" style={{ color: 'var(--text-heading)' }}>
+            <h1 className="text-[26px] md:text-[34px] font-bold leading-[1.15] mb-4 max-w-[600px] tracking-tight" style={{ color: 'var(--text-heading)' }}>
               {article.title}
             </h1>
-            <p className="text-[18px] leading-relaxed max-w-[600px] mb-6" style={{ color: 'var(--body)' }}>
+            <p className="text-[14px] leading-relaxed max-w-[500px] mb-5" style={{ color: 'var(--body)' }}>
               {article.subtitle}
             </p>
             <AuthorLine author={article.author} />
           </div>
         </div>
         <main style={{ background: 'var(--bg)' }}>
-          <div className="max-w-[760px] mx-auto px-6 py-16">
+          <div className="max-w-[660px] mx-auto px-6 py-12">
             <BlockRenderer blocks={article.blocks} />
             <Tags tags={article.tags} />
           </div>
@@ -44,16 +44,16 @@ export default function ArticleReader({ article }: { article: Article }) {
     <div style={{ background: 'var(--bg)' }} className="min-h-screen">
       <Header brand={headerBrand} />
       <main className="pt-14">
-        <div className="max-w-[700px] mx-auto px-6 pt-10 pb-20">
+        <div className="max-w-[660px] mx-auto px-6 pt-10 pb-16">
           <a href="/" className="flex items-center gap-1.5 text-[13px] mb-8 transition-opacity hover:opacity-70" style={{ color: 'var(--body)' }}>
             <ArrowLeft size={14} /> All articles
           </a>
           <div className="mb-10">
             <Meta article={article} />
-            <h1 className="text-[32px] md:text-[40px] font-bold leading-tight mb-4" style={{ color: 'var(--text-heading)' }}>
+            <h1 className="text-[24px] md:text-[30px] font-bold leading-tight mb-3 tracking-tight" style={{ color: 'var(--text-heading)' }}>
               {article.title}
             </h1>
-            <p className="text-[18px] leading-relaxed mb-6" style={{ color: 'var(--body)' }}>
+            <p className="text-[14px] leading-relaxed mb-5" style={{ color: 'var(--body)' }}>
               {article.subtitle}
             </p>
             <AuthorLine author={article.author} />
