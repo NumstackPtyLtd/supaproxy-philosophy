@@ -16,7 +16,7 @@ export function ArticleCard({ article }: { article: Article }) {
       </div>
 
       <h3
-        className="text-[15px] font-bold leading-tight mb-1.5"
+        className="text-[15px] font-bold leading-[1.35] mb-1.5"
         style={{ color: 'var(--text-heading)', fontFamily: "'Costaline', serif" }}
       >
         {article.title}

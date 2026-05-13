@@ -34,7 +34,7 @@ export default function PhilosophyPage() {
 
       <main className="pt-14">
         <div className="max-w-[720px] mx-auto px-6 pt-12 pb-8 text-center">
-          <h1 className="text-[24px] md:text-[32px] font-bold leading-tight mb-2 tracking-tight" style={{ color: 'var(--text-heading)' }}>
+          <h1 className="text-[24px] md:text-[32px] font-bold leading-[1.3] mb-2 tracking-tight" style={{ color: 'var(--text-heading)' }}>
             The Philosophy
           </h1>
           <p className="text-[13px] max-w-[400px] mx-auto" style={{ color: 'var(--text-muted)' }}>
@@ -42,7 +42,7 @@ export default function PhilosophyPage() {
           </p>
         </div>
 
-        <div className="max-w-[820px] mx-auto px-6 pb-16">
+        <div className="max-w-[960px] mx-auto px-6 pb-16">
           {/* Category pills */}
           <div className="flex gap-1.5 mb-8 justify-center flex-wrap">
             {['All', ...CATEGORIES].map(cat => (
@@ -73,7 +73,7 @@ export default function PhilosophyPage() {
                 <span className="text-[10px]" style={{ color: 'var(--text-muted)' }}>{featured.category}</span>
                 <span className="text-[10px] ml-auto" style={{ color: 'var(--text-muted)' }}>{formatDate(featured.date)}</span>
               </div>
-              <h2 className="text-[18px] md:text-[22px] font-bold leading-tight mb-2 max-w-[500px]" style={{ color: 'var(--text-heading)', fontFamily: "'Costaline', serif" }}>
+              <h2 className="text-[18px] md:text-[22px] font-bold leading-[1.3] mb-2 max-w-[500px]" style={{ color: 'var(--text-heading)', fontFamily: "'Costaline', serif" }}>
                 {featured.title}
               </h2>
               <p className="text-[13px] leading-relaxed max-w-[440px]" style={{ color: 'var(--body)' }}>

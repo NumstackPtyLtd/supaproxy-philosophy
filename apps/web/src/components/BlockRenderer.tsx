@@ -21,7 +21,7 @@ function RenderBlock({ block }: { block: ContentBlock }) {
       return <p className="text-[14px] leading-[1.8]" style={{ color: 'var(--body)' }} dangerouslySetInnerHTML={{ __html: renderInlineLinks(block.text) }} />
 
     case 'heading':
-      return <h2 className="text-[18px] font-bold mt-8 mb-3" style={{ color: 'var(--text-heading)' }}>{block.text}</h2>
+      return <h2 className="text-[18px] font-bold leading-[1.3] mt-8 mb-3" style={{ color: 'var(--text-heading)' }}>{block.text}</h2>
 
     case 'quote':
       return (

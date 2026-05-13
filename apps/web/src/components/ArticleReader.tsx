@@ -21,7 +21,7 @@ export default function ArticleReader({ article }: { article: Article }) {
               <ArrowLeft size={14} /> All articles
             </a>
             <Meta article={article} />
-            <h1 className="text-[26px] md:text-[34px] font-bold leading-[1.15] mb-4 max-w-[600px] tracking-tight" style={{ color: 'var(--text-heading)' }}>
+            <h1 className="text-[26px] md:text-[34px] font-bold leading-[1.3] mb-4 max-w-[600px] tracking-tight" style={{ color: 'var(--text-heading)' }}>
               {article.title}
             </h1>
             <p className="text-[14px] leading-relaxed max-w-[500px] mb-5" style={{ color: 'var(--body)' }}>
@@ -50,7 +50,7 @@ export default function ArticleReader({ article }: { article: Article }) {
           </a>
           <div className="mb-10">
             <Meta article={article} />
-            <h1 className="text-[24px] md:text-[30px] font-bold leading-tight mb-3 tracking-tight" style={{ color: 'var(--text-heading)' }}>
+            <h1 className="text-[24px] md:text-[30px] font-bold leading-[1.3] mb-3 tracking-tight" style={{ color: 'var(--text-heading)' }}>
               {article.title}
             </h1>
             <p className="text-[14px] leading-relaxed mb-5" style={{ color: 'var(--body)' }}>
