@@ -4,9 +4,9 @@ import type { Article } from '../lib/types'
 import { BlockRenderer } from './BlockRenderer'
 
 const headerBrand = (
-  <a href="/" className="flex items-center gap-1.5">
-    <span className="text-[18px] font-bold" style={{ fontFamily: "'Costaline', serif", color: 'var(--text-heading)' }}>SupaProxy</span>
-    <span className="text-[11px]" style={{ color: 'var(--text-muted)' }}>by Numstack</span>
+  <a href="/" className="flex items-center gap-2">
+    <span className="text-[16px] font-bold tracking-tight" style={{ fontFamily: "'Costaline', serif", color: 'var(--text-heading)' }}>SupaProxy</span>
+    <span className="text-[10px] font-medium tracking-wide uppercase px-2 py-0.5 rounded-full" style={{ background: 'var(--color-accent-bg)', color: 'var(--color-accent-text)', border: '1px solid var(--color-accent-border)' }}>Philosophy</span>
   </a>
 )
 

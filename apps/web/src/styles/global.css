@@ -18,7 +18,7 @@
 }
 
 @theme {
-  --color-accent: #0f172a;
+  --color-accent: #FF6C37;
 }
 
 @layer base {
@@ -34,73 +34,75 @@
     font-weight: 700;
   }
 
-  :root, [data-theme="light"] {
-    --bg: #FAFAF8;
-    --bg-card: #FFFFFF;
-    --bg-surface: #F5F5F0;
-    --bg-hover: #EDEDEA;
-    --text-heading: #0f172a;
-    --body: #475569;
-    --text-muted: #94a3b8;
-    --border-color: #e2e8f0;
-    --border-light: #cbd5e1;
-    --header-bg: rgba(250, 250, 248, 0.92);
-    --shadow: rgba(0, 0, 0, 0.04);
-    --overlay-bg: rgba(0, 0, 0, 0.25);
+  /* Dark theme (default) — deep slate, matches dashboard */
+  :root, [data-theme="dark"] {
+    --bg: #1A1A2E;
+    --bg-card: #212140;
+    --bg-surface: #282850;
+    --bg-hover: #30305A;
+    --text-heading: #F0F0F5;
+    --body: #9E9EB8;
+    --text-muted: #6B6B88;
+    --border-color: #2D2D50;
+    --border-light: #3A3A60;
+    --header-bg: rgba(26, 26, 46, 0.5);
+    --shadow: rgba(0, 0, 0, 0.35);
+    --overlay-bg: rgba(20, 20, 36, 0.5);
 
-    --color-accent: #0f172a;
-    --color-accent-bg: rgba(15, 23, 42, 0.06);
-    --color-accent-border: rgba(15, 23, 42, 0.12);
-    --color-accent-text: #0f172a;
+    --color-accent: #FF6C37;
+    --color-accent-bg: rgba(255, 108, 55, 0.1);
+    --color-accent-border: rgba(255, 108, 55, 0.2);
+    --color-accent-text: #FF6C37;
 
-    --input-bg: #FFFFFF;
-    --input-border: #e2e8f0;
-    --input-text: #0f172a;
-    --btn-primary-bg: #0f172a;
+    --input-bg: #212140;
+    --input-border: #2D2D50;
+    --input-text: #F0F0F5;
+    --btn-primary-bg: #FF6C37;
     --btn-primary-text: #FFFFFF;
     --btn-secondary-bg: transparent;
-    --btn-secondary-text: #475569;
-    --btn-secondary-border: #e2e8f0;
-    --dropdown-bg: #FFFFFF;
-    --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-
-    --btn-glass-bg: linear-gradient(104deg, rgba(15,23,42,0.04) 5%, rgba(30,41,59,0.06) 100%);
-    --btn-glass-border: rgba(0,0,0,0.08);
-    --btn-glass-glow: none;
-  }
-
-  [data-theme="dark"] {
-    --bg: #0a0a0a;
-    --bg-card: #111111;
-    --bg-surface: #1a1a1a;
-    --bg-hover: #222222;
-    --text-heading: #fafafa;
-    --body: #a1a1a1;
-    --text-muted: #666666;
-    --border-color: #222222;
-    --border-light: #333333;
-    --header-bg: rgba(10, 10, 10, 0.92);
-    --shadow: rgba(0, 0, 0, 0.3);
-    --overlay-bg: rgba(0, 0, 0, 0.5);
-
-    --color-accent: #e2e8f0;
-    --color-accent-bg: rgba(226, 232, 240, 0.08);
-    --color-accent-border: rgba(226, 232, 240, 0.15);
-    --color-accent-text: #e2e8f0;
-
-    --input-bg: #111111;
-    --input-border: #222222;
-    --input-text: #fafafa;
-    --btn-primary-bg: #fafafa;
-    --btn-primary-text: #0a0a0a;
-    --btn-secondary-bg: transparent;
-    --btn-secondary-text: #a1a1a1;
-    --btn-secondary-border: #333333;
-    --dropdown-bg: #111111;
+    --btn-secondary-text: #9E9EB8;
+    --btn-secondary-border: #2D2D50;
+    --dropdown-bg: #212140;
     --card-shadow: none;
 
-    --btn-glass-bg: linear-gradient(104deg, rgba(255,255,255,0.04) 5%, rgba(255,255,255,0.06) 100%);
-    --btn-glass-border: rgba(255,255,255,0.08);
+    --btn-glass-bg: linear-gradient(104deg, rgba(255,108,55,0.08) 5%, rgba(240,240,245,0.06) 100%);
+    --btn-glass-border: rgba(255,108,55,0.16);
+    --btn-glass-glow: 0 0 24px rgba(255,108,55,0.06);
+  }
+
+  /* Light theme — warm cream, matches dashboard */
+  [data-theme="light"] {
+    --bg: #FAF8F6;
+    --bg-card: #FFFFFF;
+    --bg-surface: #F2EFEB;
+    --bg-hover: #EAE6E0;
+    --text-heading: #2D2A26;
+    --body: #5C5650;
+    --text-muted: #9C958E;
+    --border-color: #E8E4DE;
+    --border-light: #DAD5CE;
+    --header-bg: rgba(250, 248, 246, 0.95);
+    --shadow: rgba(45, 42, 38, 0.04);
+    --overlay-bg: rgba(0, 0, 0, 0.25);
+
+    --color-accent: #FF6C37;
+    --color-accent-bg: rgba(255, 108, 55, 0.06);
+    --color-accent-border: rgba(255, 108, 55, 0.12);
+    --color-accent-text: #FF6C37;
+
+    --input-bg: #FFFFFF;
+    --input-border: #DAD5CE;
+    --input-text: #2D2A26;
+    --btn-primary-bg: #FF6C37;
+    --btn-primary-text: #FFFFFF;
+    --btn-secondary-bg: transparent;
+    --btn-secondary-text: #5C5650;
+    --btn-secondary-border: #E8E4DE;
+    --dropdown-bg: #FFFFFF;
+    --card-shadow: 0 1px 3px rgba(45, 42, 38, 0.03), 0 1px 2px rgba(45, 42, 38, 0.04);
+
+    --btn-glass-bg: linear-gradient(104deg, rgba(255,108,55,0.05) 5%, rgba(45,42,38,0.04) 100%);
+    --btn-glass-border: rgba(45,42,38,0.08);
     --btn-glass-glow: none;
   }
 }
