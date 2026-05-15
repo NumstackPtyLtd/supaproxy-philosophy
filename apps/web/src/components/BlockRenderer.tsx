@@ -60,9 +60,9 @@ function RenderBlock({ block }: { block: ContentBlock }) {
         <div className="rounded-xl p-5 my-6" style={{ background: color.bg, border: `1px solid ${color.border}` }}>
           <div className="flex items-center gap-2 mb-2">
             <Icon size={16} style={{ color: color.text }} />
-            <span className="text-[13px] font-semibold" style={{ color: color.text }}>{block.title}</span>
+            <span className="text-[13px] font-semibold" style={{ color: color.text }} dangerouslySetInnerHTML={{ __html: renderInlineLinks(block.title) }} />
           </div>
-          <p className="text-[14px] leading-relaxed" style={{ color: 'var(--body)' }}>{block.text}</p>
+          <p className="text-[14px] leading-relaxed" style={{ color: 'var(--body)' }} dangerouslySetInnerHTML={{ __html: renderInlineLinks(block.text) }} />
         </div>
       )
     }
