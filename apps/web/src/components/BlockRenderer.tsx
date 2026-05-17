@@ -49,9 +49,9 @@ function RenderBlock({ block }: { block: ContentBlock }) {
     case 'callout': {
       const icons = { insight: Lightbulb, principle: BookOpen, warning: AlertTriangle }
       const colors = {
-        insight: { bg: 'rgba(59, 130, 246, 0.06)', border: 'rgba(59, 130, 246, 0.12)', text: '#2563EB' },
-        principle: { bg: 'rgba(16, 185, 129, 0.06)', border: 'rgba(16, 185, 129, 0.12)', text: '#059669' },
-        warning: { bg: 'rgba(245, 158, 11, 0.06)', border: 'rgba(245, 158, 11, 0.12)', text: '#D97706' },
+        insight: { bg: 'var(--color-accent-bg)', border: 'var(--color-accent-border)', text: 'var(--color-accent)' },
+        principle: { bg: 'rgba(16, 185, 129, 0.06)', border: 'rgba(16, 185, 129, 0.12)', text: '#10B981' },
+        warning: { bg: 'rgba(245, 158, 11, 0.06)', border: 'rgba(245, 158, 11, 0.12)', text: '#F59E0B' },
       }
       const Icon = icons[block.variant]
       const color = colors[block.variant]
@@ -145,17 +145,17 @@ function CodeBlock({ code, title, language }: { code: string; title?: string; la
       let result = escapeHtml(line)
 
       // Strings
-      result = result.replace(/&#39;([^&#]*?)&#39;/g, '<span style="color:#059669">\'$1\'</span>')
-      result = result.replace(/&quot;([^&]*?)&quot;/g, '<span style="color:#059669">"$1"</span>')
+      result = result.replace(/&#39;([^&#]*?)&#39;/g, '<span style="color:#10B981">\'$1\'</span>')
+      result = result.replace(/&quot;([^&]*?)&quot;/g, '<span style="color:#10B981">"$1"</span>')
 
       // Keywords
       for (const kw of keywords) {
-        result = result.replace(new RegExp(`\\b${kw}\\b`, 'g'), `<span style="color:#7C3AED">${kw}</span>`)
+        result = result.replace(new RegExp(`\\b${kw}\\b`, 'g'), `<span style="color:#A78BFA">${kw}</span>`)
       }
 
       // Types
       for (const t of types) {
-        result = result.replace(new RegExp(`\\b${t}\\b`, 'g'), `<span style="color:#2563EB">${t}</span>`)
+        result = result.replace(new RegExp(`\\b${t}\\b`, 'g'), `<span style="color:var(--color-accent)">${t}</span>`)
       }
 
       return result
