@@ -25,7 +25,7 @@ export default function PhilosophyPage() {
               <rect x="7" y="7" width="16" height="16" rx="4" fill="var(--text-heading)" />
               <circle cx="23" cy="23" r="7" fill="var(--color-accent)" />
             </svg>
-            <span className="text-[16px] font-bold tracking-tight" style={{ fontFamily: "'Costaline', serif", color: 'var(--text-heading)' }}>SupaProxy</span>
+            <span className="text-[18px] font-bold" style={{ fontFamily: "'Space Grotesk', sans-serif", color: 'var(--text-heading)', letterSpacing: '-0.02em' }}>SupaProxy</span>
             <span className="text-[10px] font-medium tracking-wide uppercase px-2 py-0.5 rounded-full" style={{ background: 'var(--color-accent-bg)', color: 'var(--color-accent-text)', border: '1px solid var(--color-accent-border)' }}>Philosophy</span>
           </a>
         }

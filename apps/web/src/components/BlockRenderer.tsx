@@ -49,7 +49,7 @@ function RenderBlock({ block }: { block: ContentBlock }) {
     case 'callout': {
       const icons = { insight: Lightbulb, principle: BookOpen, warning: AlertTriangle }
       const colors = {
-        insight: { bg: 'rgba(107, 159, 232, 0.06)', border: 'rgba(107, 159, 232, 0.12)', text: 'var(--color-accent)' },
+        insight: { bg: 'var(--color-accent-bg)', border: 'var(--color-accent-border)', text: 'var(--color-accent)' },
         principle: { bg: 'rgba(16, 185, 129, 0.06)', border: 'rgba(16, 185, 129, 0.12)', text: '#10B981' },
         warning: { bg: 'rgba(245, 158, 11, 0.06)', border: 'rgba(245, 158, 11, 0.12)', text: '#F59E0B' },
       }
