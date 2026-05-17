@@ -19,6 +19,7 @@
 
 @theme {
   --color-accent: #6B9FE8;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 @layer base {
