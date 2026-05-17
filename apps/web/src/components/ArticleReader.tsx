@@ -5,6 +5,11 @@ import { BlockRenderer } from './BlockRenderer'
 
 const headerBrand = (
   <a href="/" className="flex items-center gap-2">
+    <svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="0" width="16" height="18" fill="var(--text-muted)" opacity={0.4} />
+      <rect x="7" y="7" width="16" height="16" rx="4" fill="var(--text-heading)" />
+      <circle cx="23" cy="23" r="7" fill="var(--color-accent)" />
+    </svg>
     <span className="text-[16px] font-bold tracking-tight" style={{ fontFamily: "'Costaline', serif", color: 'var(--text-heading)' }}>SupaProxy</span>
     <span className="text-[10px] font-medium tracking-wide uppercase px-2 py-0.5 rounded-full" style={{ background: 'var(--color-accent-bg)', color: 'var(--color-accent-text)', border: '1px solid var(--color-accent-border)' }}>Philosophy</span>
   </a>
