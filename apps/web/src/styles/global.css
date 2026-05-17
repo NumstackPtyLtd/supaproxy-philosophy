@@ -34,7 +34,7 @@
     font-weight: 700;
   }
 
-  /* Dark theme (default) — deep slate, matches dashboard */
+  /* Dark theme (default): deep slate, matches dashboard */
   :root, [data-theme="dark"] {
     --bg: #1A1A2E;
     --bg-card: #212140;
@@ -70,7 +70,7 @@
     --btn-glass-glow: 0 0 24px rgba(255,108,55,0.06);
   }
 
-  /* Light theme — warm cream, matches dashboard */
+  /* Light theme: warm cream, matches dashboard */
   [data-theme="light"] {
     --bg: #FAF8F6;
     --bg-card: #FFFFFF;
