@@ -13,7 +13,7 @@ export const article: Article = {
   featured: true,
   blocks: [
     { type: 'heading', text: 'The monolith problem' },
-    { type: 'paragraph', text: 'SupaProxy started as a single server. One repository. One process. MySQL for storage, Redis for queues, LanceDB for vectors, JWT for auth. It worked. But we kept asking ourselves: if someone wanted to use PostgreSQL instead of MySQL, or plug in their own SSO instead of our JWT auth, what would they have to do? The answer was fork the server and rewrite the internals.' },
+    { type: 'paragraph', text: 'SupaProxy started as a single server. One repository. One process. MySQL for storage, Redis for queues, LanceDB for vectors, JWT for auth. It worked. But we kept asking ourselves: if someone wanted to use PostgreSQL instead of MySQL, or plug in their own SSO instead of our JWT auth, what would they have to do? The answer is fork the server and rewrite the internals.' },
     { type: 'paragraph', text: 'The platform is public but we have not advertised yet. This is the right time to fix the foundation, before adoption makes it painful to change.' },
     { type: 'paragraph', text: 'We decided to fix it. Not by adding configuration flags or plugin hooks, but by restructuring the entire codebase around a principle we already believed in but had not fully committed to: dependency inversion.' },
 
