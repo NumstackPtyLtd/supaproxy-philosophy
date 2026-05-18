@@ -21,7 +21,7 @@ export const article: Article = {
     { type: 'heading', text: 'Two layers, two problems' },
     { type: 'paragraph', text: 'When you start building memory into an AI product, you quickly discover there are two distinct problems that look like one.' },
     { type: 'paragraph', text: 'The first is retrieval. Given a new situation, what past knowledge is relevant? This is the classic RAG (Retrieval-Augmented Generation) problem. Embed your knowledge, store vectors, search by similarity. Plenty of tutorials cover this.' },
-    { type: 'paragraph', text: 'The second is trust. Of the knowledge you retrieved, how much of it should you act on? Who said it? When? Did anyone disagree? Is it still valid? This is the problem nobody talks about, and it is the one that determines whether your product is useful or dangerous.' },
+    { type: 'paragraph', text: 'The second is trust. Of the knowledge you retrieved, how much of it should you act on? Who said it? When? Did anyone disagree? Is it still valid? This is the problem we think deserves far more attention, and it is the one that determines whether your product is useful or dangerous.' },
     { type: 'comparison', left: { title: 'Retrieval layer (memory)', items: ['Store knowledge with embeddings', 'Search by semantic similarity', 'Extract entities and relationships', 'Track what was used and when', 'Merge results from multiple paths'] }, right: { title: 'Trust layer (governance)', items: ['Verify who said what and when', 'Require approvals before acting', 'Track dissenting opinions', 'Score confidence by source and authority', 'Audit every decision end to end'] } },
 
     { type: 'heading', text: 'The retrieval layer' },
@@ -68,7 +68,7 @@ const context = mergeAndRank([vectorResults, entityResults, tagResults])` },
     { type: 'paragraph', text: 'Approval rules are configurable per organisation. Some teams need two senior engineers to confirm a new convention. Others need only a team lead. Security-tagged decisions might need the security team explicitly. The trust layer provides the rule engine. The consumer provides the rules.' },
 
     { type: 'heading', text: 'Dissent is data' },
-    { type: 'paragraph', text: 'Here is something most systems get catastrophically wrong. They discard disagreement.' },
+    { type: 'paragraph', text: 'Here is something we are determined to avoid. Discarding disagreement.' },
     { type: 'paragraph', text: 'Someone approves a decision. Someone else raises a concern. The decision is stored as "approved". The concern disappears. Six months later, the concern turns out to be valid, but nobody remembers it was raised.' },
 
     { type: 'callout', variant: 'principle', title: 'The dissent principle', text: 'Dissenting opinions are never discarded. They are stored alongside the approval, visible when the knowledge is retrieved, and periodically resurfaced for resolution. A system that silences disagreement is not trustworthy.' },
