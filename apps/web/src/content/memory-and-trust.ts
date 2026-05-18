@@ -99,7 +99,7 @@ const context = mergeAndRank([vectorResults, entityResults, tagResults])` },
 
     { type: 'heading', text: 'The audit trail' },
     { type: 'paragraph', text: 'Enterprise customers ask one question before any other. "Can I trace how a decision was made?"' },
-    { type: 'paragraph', text: 'With a trust layer, the answer is yes. Every piece of knowledge has a complete provenance trail: who initiated it, who was asked to verify, who approved, who dissented, when, and why. This is not a nice-to-have. For regulated industries, it is a legal requirement.' },
+    { type: 'paragraph', text: 'With a trust layer, the answer is yes. Every piece of knowledge has a complete provenance trail. Who initiated it, who was asked to verify, who approved, who dissented, when, and why. This is not a nice-to-have. For regulated industries, it is a legal requirement.' },
     { type: 'paragraph', text: 'The audit trail also serves a practical purpose. When a rule causes friction ("why is the system blocking my PR?"), the developer can trace it back to the source. "This rule was added by Sarah on March 3rd, approved by the TL, based on the incident report from February." Transparency breeds trust.' },
 
     { type: 'heading', text: 'Putting it together' },

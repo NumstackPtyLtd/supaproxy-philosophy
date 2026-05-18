@@ -35,7 +35,7 @@ export const article: Article = {
     { type: 'heading', text: 'The entity store as encryption dictionary' },
     { type: 'paragraph', text: 'Here is the insight that ties it all together. The vector store does not just match entities. It holds the pre-computed encrypted avatars. Each record in the store contains the real entity, its embedding, and its encrypted counterpart.' },
     { type: 'code', language: 'json', title: 'Entity store record', code: '{\n  "real_value": "Elvis Magagula",\n  "embedding": [0.23, -0.41, 0.87, ...],\n  "encrypted_avatar": "Kgosi Molefe",\n  "entity_type": "customer_name",\n  "confidence_threshold": 0.92\n}' },
-    { type: 'paragraph', text: 'One vector search gives you three things simultaneously: whether the candidate is a known entity, what type it is, and what to replace it with. The matching and the encryption happen in a single lookup. There is no separate encryption step. The entity store is the encryption dictionary.' },
+    { type: 'paragraph', text: 'One vector search gives you three things simultaneously. Whether the candidate is a known entity, what type it is, and what to replace it with. The matching and the encryption happen in a single lookup. There is no separate encryption step. The entity store is the encryption dictionary.' },
 
     { type: 'heading', text: 'Confidence thresholds and the grey zone' },
     { type: 'paragraph', text: 'Not every match is certain. A 0.97 similarity is clearly a match. A 0.5 is clearly not. But what about 0.8? The system needs a decision framework for the grey zone.' },
