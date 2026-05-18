@@ -15,7 +15,7 @@ export const article: Article = {
     { type: 'heading', text: 'The amnesia problem' },
     { type: 'paragraph', text: 'Every AI product starts the same way. User sends input, AI processes it, AI responds. Next interaction, the AI has no memory of the last one. It is a goldfish with a PhD.' },
     { type: 'paragraph', text: 'This works for simple tools. Ask ChatGPT to write a regex, get a regex, move on. But for products that operate inside an organisation, in a team with history, conventions, decisions, politics, amnesia is a fatal flaw.' },
-    { type: 'paragraph', text: 'Consider a code reviewer that flags a pattern as a violation. A developer responds: "This is intentional, the TL approved it last month." The reviewer has no way to verify this. Next week, a different developer hits the same pattern. The reviewer flags it again. The team stops trusting it. The product dies.' },
+    { type: 'paragraph', text: 'Consider a code reviewer that flags a pattern as a violation. A developer responds, "This is intentional, the TL approved it last month." The reviewer has no way to verify this. Next week, a different developer hits the same pattern. The reviewer flags it again. The team stops trusting it. The product dies.' },
     { type: 'callout', variant: 'principle', title: 'The memory principle', text: 'AI products that operate inside organisations need persistent, searchable, trust-scored memory. Not just a database. A retrieval layer that finds what is relevant by meaning, not by keywords.' },
 
     { type: 'heading', text: 'Two layers, two problems' },
@@ -25,14 +25,14 @@ export const article: Article = {
     { type: 'comparison', left: { title: 'Retrieval layer (memory)', items: ['Store knowledge with embeddings', 'Search by semantic similarity', 'Extract entities and relationships', 'Track what was used and when', 'Merge results from multiple paths'] }, right: { title: 'Trust layer (governance)', items: ['Verify who said what and when', 'Require approvals before acting', 'Track dissenting opinions', 'Score confidence by source and authority', 'Audit every decision end to end'] } },
 
     { type: 'heading', text: 'The retrieval layer' },
-    { type: 'paragraph', text: 'The retrieval layer is your product\'s memory. It answers the question: "What do we know that is relevant to this situation?"' },
+    { type: 'paragraph', text: 'The retrieval layer is your product\'s memory. It answers the question, "What do we know that is relevant to this situation?"' },
     { type: 'paragraph', text: 'A naive implementation stores text and searches by keywords. This breaks immediately in practice because people describe the same concept in different words. "Date field naming convention" and "fix the timestamp column" are the same topic but share zero keywords.' },
     { type: 'paragraph', text: 'Vector embeddings solve this. You convert text into a numerical representation that captures meaning, not just words. Two pieces of text about the same concept end up close together in vector space, even if they use completely different language.' },
 
     { type: 'callout', variant: 'insight', title: 'Three retrieval paths', text: 'The strongest retrieval combines three approaches in parallel: (1) vector similarity for semantic matches, (2) entity graph lookups for relational queries ("what do we know about X?"), and (3) direct tag and source filters. Merge and deduplicate the results.' },
 
-    { type: 'paragraph', text: 'But vector search alone is not enough. You also need an entity graph: a structured map of relationships between things. "GiftCardPayment is exempted from RefundablePayment, decided by the TL on May 7th." This is not a fuzzy similarity match. It is a hard fact that the system needs to know.' },
-    { type: 'paragraph', text: 'The retrieval layer stores both: embeddings for fuzzy semantic search, and an entity graph for precise relational queries. At retrieval time, both run in parallel. The results are merged, deduplicated, and ranked by relevance.' },
+    { type: 'paragraph', text: 'But vector search alone is not enough. You also need an entity graph, a structured map of relationships between things. "GiftCardPayment is exempted from RefundablePayment, decided by the TL on May 7th." This is not a fuzzy similarity match. It is a hard fact that the system needs to know.' },
+    { type: 'paragraph', text: 'The retrieval layer stores both embeddings for fuzzy semantic search and an entity graph for precise relational queries. At retrieval time, both run in parallel. The results are merged, deduplicated, and ranked by relevance.' },
 
     { type: 'code', language: 'typescript', title: 'Retrieval at query time', code: `// Three paths run in parallel
 const [vectorResults, entityResults, tagResults] = await Promise.all([
@@ -68,12 +68,12 @@ const context = mergeAndRank([vectorResults, entityResults, tagResults])` },
     { type: 'paragraph', text: 'Approval rules are configurable per organisation. Some teams need two senior engineers to confirm a new convention. Others need only a team lead. Security-tagged decisions might need the security team explicitly. The trust layer provides the rule engine. The consumer provides the rules.' },
 
     { type: 'heading', text: 'Dissent is data' },
-    { type: 'paragraph', text: 'Here is something most systems get catastrophically wrong: they discard disagreement.' },
+    { type: 'paragraph', text: 'Here is something most systems get catastrophically wrong. They discard disagreement.' },
     { type: 'paragraph', text: 'Someone approves a decision. Someone else raises a concern. The decision is stored as "approved". The concern disappears. Six months later, the concern turns out to be valid, but nobody remembers it was raised.' },
 
     { type: 'callout', variant: 'principle', title: 'The dissent principle', text: 'Dissenting opinions are never discarded. They are stored alongside the approval, visible when the knowledge is retrieved, and periodically resurfaced for resolution. A system that silences disagreement is not trustworthy.' },
 
-    { type: 'paragraph', text: 'When dissent exists, the trust layer caps the confidence score. The knowledge is still usable, but the system is honest about the fact that not everyone agreed. When the AI retrieves this knowledge, it can say: "This was approved by the TL, but Alice raised a concern about Q3 compatibility. That concern is still unresolved."' },
+    { type: 'paragraph', text: 'When dissent exists, the trust layer caps the confidence score. The knowledge is still usable, but the system is honest about the fact that not everyone agreed. When the AI retrieves this knowledge, it can say, "This was approved by the TL, but Alice raised a concern about Q3 compatibility. That concern is still unresolved."' },
     { type: 'paragraph', text: 'This is not just good engineering. It is how trust works in real teams. People trust systems that are transparent about uncertainty.' },
 
     { type: 'heading', text: 'The confidence spectrum' },
@@ -98,9 +98,9 @@ const context = mergeAndRank([vectorResults, entityResults, tagResults])` },
     { type: 'paragraph', text: 'Every answer, regardless of type, feeds back into the knowledge base. Clarifications become exceptions. Confirmations become precedents. Escalations establish authority chains. Learning questions become new rules. The system gets smarter with every interaction.' },
 
     { type: 'heading', text: 'The audit trail' },
-    { type: 'paragraph', text: 'Enterprise customers ask one question before any other: "Can I trace how a decision was made?"' },
+    { type: 'paragraph', text: 'Enterprise customers ask one question before any other. "Can I trace how a decision was made?"' },
     { type: 'paragraph', text: 'With a trust layer, the answer is yes. Every piece of knowledge has a complete provenance trail: who initiated it, who was asked to verify, who approved, who dissented, when, and why. This is not a nice-to-have. For regulated industries, it is a legal requirement.' },
-    { type: 'paragraph', text: 'The audit trail also serves a practical purpose. When a rule causes friction ("why is the system blocking my PR?"), the developer can trace it back to the source: "This rule was added by Sarah on March 3rd, approved by the TL, based on the incident report from February." Transparency breeds trust.' },
+    { type: 'paragraph', text: 'The audit trail also serves a practical purpose. When a rule causes friction ("why is the system blocking my PR?"), the developer can trace it back to the source. "This rule was added by Sarah on March 3rd, approved by the TL, based on the incident report from February." Transparency breeds trust.' },
 
     { type: 'heading', text: 'Putting it together' },
     { type: 'paragraph', text: 'The architecture is two layers that compose but do not require each other:' },
