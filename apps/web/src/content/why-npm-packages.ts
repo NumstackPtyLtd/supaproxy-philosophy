@@ -11,7 +11,7 @@ export const article: Article = {
   readTime: '5 min',
   coverColor: '#7C3AED',
   blocks: [
-    { type: 'paragraph', text: 'AI coding agents are changing how software gets written. They are fast, capable, and improving weekly. But they have a limitation that most teams have not reckoned with. They work best on small, bounded problems.' },
+    { type: 'paragraph', text: 'AI coding agents are changing how software gets written. They are fast, capable, and improving weekly. But they have a limitation that we think deserves more attention. They work best on small, bounded problems.' },
 
     { type: 'heading', text: 'The monolith problem' },
     { type: 'paragraph', text: 'A 50,000-line codebase with tightly coupled modules is a minefield for an AI contributor. Context windows overflow. Dependencies are unclear. A change in one module breaks three others. The AI agent either makes a mess or gives up.' },

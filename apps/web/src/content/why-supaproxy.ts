@@ -3,7 +3,7 @@ import type { Article } from '../lib/types'
 export const article: Article = {
   slug: 'why-teams-should-care',
   title: 'Why teams should care about AI governance',
-  subtitle: 'Companies embracing AI are moving faster. They are also widening the vulnerability gap faster than anyone wants to admit.',
+  subtitle: 'The faster a team adopts AI, the wider the vulnerability gap can get. That tension keeps us up at night.',
   author: { name: 'Elvis Magagula', role: 'OSS Maintainer' },
   category: 'Philosophy',
   tags: ['governance', 'ai-operations', 'security', 'leadership'],
@@ -11,10 +11,10 @@ export const article: Article = {
   readTime: '5 min',
   coverColor: '#0f172a',
   blocks: [
-    { type: 'paragraph', text: 'Companies that are embracing AI are moving faster than companies that are not. That part is obvious and well-documented. What is less discussed is the other side of that speed. These same companies are exponentially widening their vulnerability gap. The faster they adopt, the wider it gets.' },
+    { type: 'paragraph', text: 'There is a pattern we keep thinking about. The faster a team embraces AI, the more surface area it exposes. Speed and vulnerability scale together. What concerns us is the other side of that speed, the widening gap between what AI can access and what is actually governed.' },
 
     { type: 'heading', text: 'The pressure to ship' },
-    { type: 'paragraph', text: 'Teams are adopting AI tools with no clear plan for how they will keep their customers safe. This is not because the teams are careless. It is because the pressure to innovate with AI comes from the top down. Management reads about competitors using AI to cut costs, boards ask why the company is falling behind, and the directive trickles down to engineering and product teams who are expected to integrate AI into everything.' },
+    { type: 'paragraph', text: 'The risk we see is that AI adoption can outpace the plan for keeping customers safe. Not because teams are careless. It is because the pressure to innovate with AI often comes from the top down. Management reads about competitors using AI to cut costs, boards ask why the company is falling behind, and the directive trickles down to engineering and product teams who are expected to integrate AI into everything.' },
     { type: 'paragraph', text: 'The people pushing hardest for AI adoption are often those furthest from the implementation. They see the productivity gains. They do not see the employee who just sent a client\'s financial details to a third-party model because the AI assistant had no guardrails. They do not see the API key that was pasted into a prompt. They do not see the internal project codename that is now part of a training dataset somewhere.' },
 
     { type: 'callout', variant: 'warning', title: 'The uncomfortable truth', text: 'More often than not, the urgency to adopt AI is driven by those who prioritise speed over security. Not because they do not care about security, but because they do not yet understand what AI-specific security looks like.' },

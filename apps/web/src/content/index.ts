@@ -10,6 +10,7 @@ import { article as semanticPreservation } from './semantic-preservation'
 import { article as memoryAndTrust } from './memory-and-trust'
 import { article as retrievalGap } from './retrieval-gap'
 import { article as receptionistArchitecture } from './receptionist-architecture'
+import { article as composableArchitecture } from './composable-architecture'
 
 /**
  * All articles, newest first.
@@ -19,6 +20,7 @@ import { article as receptionistArchitecture } from './receptionist-architecture
  * 3. Import and add to this array
  */
 export const ARTICLES: Article[] = [
+  composableArchitecture,
   receptionistArchitecture,
   memoryAndTrust,
   retrievalGap,
