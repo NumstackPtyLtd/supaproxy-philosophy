@@ -18,8 +18,6 @@ supaproxy-philosophy/
       pages/                   Astro pages
       styles/                  Global styles
     Dockerfile                 Production container
-  .claude/skills/
-    write-article/SKILL.md     Article writing and review skill
   package.json                 Root workspace config
   pnpm-workspace.yaml          pnpm workspace (apps/*)
 ```
@@ -47,8 +45,6 @@ pnpm build        # Production build
 1. Create a new `.ts` file in `apps/web/src/content/`.
 2. Export `{ article: Article }`.
 3. Import and add to `apps/web/src/content/index.ts`.
-
-Use the `/write-article` skill for voice, tone, and formatting rules.
 
 ## Article writing rules
 
