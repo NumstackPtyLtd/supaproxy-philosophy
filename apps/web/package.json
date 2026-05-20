@@ -1,7 +1,9 @@
 {
   "name": "@philosophy/web",
   "version": "0.1.0",
+  "description": "Astro web application for the SupaProxy design journal",
   "private": true,
+  "license": "UNLICENSED",
   "type": "module",
   "scripts": {
     "dev": "astro dev",

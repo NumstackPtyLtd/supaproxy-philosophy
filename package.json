@@ -1,6 +1,12 @@
 {
   "name": "supaproxy-design",
+  "description": "Design journal for the SupaProxy platform",
   "private": true,
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NumstackPtyLtd/supaproxy-philosophy.git"
+  },
   "scripts": {
     "dev": "pnpm --filter @philosophy/web dev",
     "build": "pnpm --filter @philosophy/web build"
