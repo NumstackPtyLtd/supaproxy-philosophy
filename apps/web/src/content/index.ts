@@ -12,6 +12,7 @@ import { article as retrievalGap } from './retrieval-gap'
 import { article as receptionistArchitecture } from './receptionist-architecture'
 import { article as composableArchitecture } from './composable-architecture'
 import { article as marketplaceArchitecture } from './marketplace-architecture'
+import { article as pluggableDatabase } from './pluggable-database'
 
 /**
  * All articles, newest first.
@@ -21,6 +22,7 @@ import { article as marketplaceArchitecture } from './marketplace-architecture'
  * 3. Import and add to this array
  */
 export const ARTICLES: Article[] = [
+  pluggableDatabase,
   marketplaceArchitecture,
   composableArchitecture,
   receptionistArchitecture,
