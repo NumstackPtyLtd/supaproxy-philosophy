@@ -1,0 +1,82 @@
+import type { Article } from '../lib/types'
+
+export const article: Article = {
+  slug: 'pluggable-database',
+  title: 'The pluggable database layer',
+  subtitle: 'We extracted every SQL query from core into a separate package. Here is the architecture, the contract, what we gained, what it costs, and where it leads.',
+  author: { name: 'Elvis Magagula', role: 'OSS Maintainer' },
+  category: 'Architecture',
+  tags: ['database', 'ports-and-adapters', 'composability', 'mysql', 'dependency-inversion'],
+  date: '2026-05-20',
+  readTime: '14 min',
+  coverColor: '#0F1A2E',
+  featured: true,
+  blocks: [
+    { type: 'heading', text: 'Zero SQL in core' },
+    { type: 'paragraph', text: 'As of today, the SupaProxy core package contains zero SQL. No SELECT statements. No INSERT queries. No migration files. No MySQL driver in its dependency tree. The core defines what data it needs through TypeScript interfaces. A separate package provides the actual database implementation.' },
+    { type: 'paragraph', text: 'This is the second extraction in our composability work. Auth was first. Database is harder because it touches every layer of the system. Eleven repository interfaces. Thirty migration versions. Row mappers, pool factories, status constants. All of it had to move out of core without breaking a single test.' },
+    { type: 'paragraph', text: 'It did not break a single test. All 369 pass. Here is how we did it and, more importantly, why.' },
+
+    { type: 'heading', text: 'The problem with owning your persistence layer' },
+    { type: 'paragraph', text: 'When core owns the MySQL implementation, it owns your database choice. If you run PostgreSQL, you cannot use SupaProxy without rewriting the persistence layer inside the server. If you run SQLite for edge deployments, the same problem. If your company mandates a specific database for compliance reasons, you are stuck.' },
+    { type: 'paragraph', text: 'This is not hypothetical. Every AI operations platform we have looked at makes the same trade-off. They pick one database and bake it in. The documentation says "requires PostgreSQL 14+" or "requires MongoDB 6.0+". If that does not match your stack, you either adopt their database or you do not adopt their platform.' },
+    { type: 'paragraph', text: 'We had the same problem. SupaProxy required MySQL 8. That was a decision we made on day one because MySQL was what we knew. It was not a decision our users should be forced to live with.' },
+
+    { type: 'heading', text: 'The DatabaseAdapter contract' },
+    { type: 'paragraph', text: 'Core now exports a single interface called DatabaseAdapter. It has eleven fields, one for each repository. Each repository is itself an interface with typed methods. TypeScript enforces the contract at compile time.' },
+    { type: 'code', language: 'typescript', code: "import type { DatabaseAdapter } from '@supaproxy/core/ports/database'\n\nexport interface DatabaseAdapter {\n  orgRepo: OrganisationRepository\n  workspaceRepo: WorkspaceRepository\n  conversationRepo: ConversationRepository\n  auditRepo: AuditLogRepository\n  modelRepo: ModelRepository\n  promptTemplateRepo: PromptTemplateRepository\n  guardrailEventRepo: GuardrailEventRepository\n  guardrailPolicyRepo: GuardrailPolicyRepository\n  integrationRepo: IntegrationRepository\n  entryPointRepo: EntryPointRepository\n  knowledgeChunkRepo: KnowledgeChunkRepository\n}" },
+    { type: 'paragraph', text: 'Each repository interface lives in its own domain module. OrganisationRepository defines findById, create, updateName, findUserByEmail, and so on. WorkspaceRepository defines findById, create, update, listNonArchived, findConnections, findTools. The full surface area is around 120 methods across 11 interfaces.' },
+    { type: 'paragraph', text: 'The database adapter package implements all 120 methods with actual SQL. Core never sees the SQL. It calls orgRepo.findById and gets an OrgData object back. Whether that object came from a MySQL query, a PostgreSQL query, or a flat file is invisible to every use case, every route handler, and every test.' },
+    { type: 'callout', variant: 'principle', title: 'The adapter factory pattern', text: 'Every adapter package exports a factory function that takes a connection and returns a DatabaseAdapter. createMysqlInfra(pool), createPostgresInfra(pool), createSqliteInfra(db). The return type annotation enforces that every repository is present and correctly typed.' },
+
+    { type: 'heading', text: 'How it composes' },
+    { type: 'paragraph', text: 'The server entrypoint is now a composition root. It imports the pieces it needs and wires them together.' },
+    { type: 'code', language: 'typescript', code: "import { createContainer, createApp } from '@supaproxy/core'\nimport { createAuthRoutes } from '@supaproxy/auth'\nimport { createMysqlInfra, runMigrations } from '@supaproxy/mysql'\n\nconst pool = getPool()\nawait runMigrations(pool)\n\nconst infra = createMysqlInfra(pool)\nconst { routes, requireAuth } = createAuthRoutes({ ... })\nconst container = createContainer(infra, { pool, authRoutes: routes, requireAuth, ... })\nconst app = createApp(container)\nserve({ fetch: app.fetch, port: 3001 })" },
+    { type: 'paragraph', text: 'To switch from MySQL to PostgreSQL, you change two lines. The import and the factory call. Everything else stays the same. The container does not know. The use cases do not know. The routes do not know.' },
+    { type: 'code', language: 'typescript', code: "// Swap MySQL for PostgreSQL. Two lines change.\nimport { createPostgresInfra, runMigrations } from '@supaproxy/postgres'\n\nconst pool = new Pool({ connectionString: process.env.DATABASE_URL })\nawait runMigrations(pool)\nconst infra = createPostgresInfra(pool)" },
+
+    { type: 'heading', text: 'What the reference implementation looks like' },
+    { type: 'paragraph', text: 'The @supaproxy/mysql package is not just an adapter. It is a reference implementation. We designed it so that someone building @supaproxy/postgres can copy the structure file by file.' },
+    { type: 'paragraph', text: 'Every repository follows the same pattern. Import the domain interface from core. Import row types from a companion mapper file. Implement the interface with SQL. Map database rows to domain types. The mapper file owns the row type definitions and the transformation functions. The repository file owns the queries.' },
+    { type: 'code', language: 'typescript', code: "// MysqlOrganisationRepository.ts\nimport type { OrganisationRepository, OrgData } from '@supaproxy/core/domain/organisation'\nimport type { OrgRow, UserRow, SettingRow, ... } from './OrganisationRowMappers.js'\n\nexport class MysqlOrganisationRepository implements OrganisationRepository {\n  constructor(private readonly pool: mysql.Pool) {}\n\n  async findById(id: string): Promise<OrgData | null> {\n    const [rows] = await this.pool.execute<OrgRow[]>(\n      'SELECT id, name, slug, created_at FROM organisations WHERE id = ?', [id]\n    )\n    return rows[0] || null\n  }\n}" },
+    { type: 'paragraph', text: 'The pattern is consistent across all eleven repositories. Nine have companion mapper files. The AuditLogRepository is the exception because it has a single method with no row types. Someone building a new adapter starts with the audit log repo to learn the pattern, then works through the rest.' },
+
+    { type: 'heading', text: 'Migrations belong to the adapter' },
+    { type: 'paragraph', text: 'This was the design decision that took the longest to make. Who owns the database schema? Does core define what tables must exist? Or does the adapter define its own schema?' },
+    { type: 'paragraph', text: 'We chose the adapter. The @supaproxy/mysql package ships 30 versioned migrations. They create the tables, add columns, migrate data, build indexes. A @supaproxy/postgres package would ship equivalent migrations in PostgreSQL dialect. A @supaproxy/sqlite package would ship SQLite-compatible DDL.' },
+    { type: 'paragraph', text: 'Core defines the schema contract implicitly through the repository interfaces. If OrganisationRepository has a findById method that returns an OrgData with id, name, slug, and created_at, then the database must have those columns somewhere. Core does not care if it is a single table, a view, a join, or a NoSQL document. The adapter makes that decision.' },
+    { type: 'paragraph', text: 'This means different adapters can make different storage decisions. A PostgreSQL adapter might use JSONB columns where the MySQL adapter uses separate tables. A SQLite adapter might denormalise aggressively because SQLite does not love joins. The repository interface is the boundary. Everything behind it is the adapter author is call.' },
+    { type: 'callout', variant: 'insight', title: 'Schema as a contract', text: 'The domain interfaces are the schema contract. If you can implement every method with correct types, your storage strategy is valid. Core does not enforce table structures. It enforces data shapes.' },
+
+    { type: 'heading', text: 'The benefits we see' },
+    { type: 'paragraph', text: 'The obvious benefit is database portability. But there are three others that matter more in practice.' },
+    { type: 'paragraph', text: 'First, testability. With zero SQL in core, every test mocks at the repository interface boundary. No test database needed. No Docker containers for CI. The mock is five lines per repository. The entire test suite runs in under three seconds. This was true before the extraction because we already mocked at the interface boundary. But now the architecture enforces it. You cannot accidentally write a test that reaches through to MySQL because MySQL does not exist in core.' },
+    { type: 'paragraph', text: 'Second, contributor isolation. Someone building a PostgreSQL adapter does not need to understand the agent loop, the guardrail resolver, or the routing system. They need to understand eleven TypeScript interfaces and the SQL to implement them. The surface area is narrow and well-typed. If they implement the interface and the tests pass, the adapter works.' },
+    { type: 'paragraph', text: 'Third, deployment flexibility. A self-hosted deployment on a Raspberry Pi might use SQLite and skip Redis entirely. A cloud deployment might use Aurora PostgreSQL with read replicas. An enterprise deployment might use their existing Oracle database through a custom adapter. The core does not change. The composition root changes.' },
+
+    { type: 'heading', text: 'The costs and risks' },
+    { type: 'paragraph', text: 'There are real costs. We are not pretending this is free.' },
+    { type: 'paragraph', text: 'The first cost is indirection. When you are debugging a failing query, the stack trace crosses a package boundary. The use case is in core. The SQL is in the adapter. The row mapper is in a separate file in the adapter. Three files across two packages for what used to be one function call in one file. We think this is manageable because the interfaces are well-named and the pattern is consistent. But it is more cognitive load.' },
+    { type: 'paragraph', text: 'The second cost is interface evolution. When we add a new method to WorkspaceRepository, every adapter package must implement it. Today there is only @supaproxy/mysql, so this is trivial. When there are three or four community adapters, a breaking interface change requires coordinated updates. We will version the interfaces and provide migration guides. But the coordination cost is real.' },
+    { type: 'paragraph', text: 'The third cost is the risk of interface leakage. The repository interfaces were designed around MySQL capabilities. findConsumerBoundToChannel uses JSON_CONTAINS in the MySQL implementation. Can every database do that? Probably, with different syntax. But the interface was shaped by what MySQL can do, not by what is universally portable. If we add a method that relies on a MySQL-specific feature like window functions or recursive CTEs, adapter authors will have to find equivalent approaches for their database.' },
+    { type: 'paragraph', text: 'The fourth cost is one we accepted knowingly. Consistency across adapters. Two different adapters implementing the same interface might have subtly different behaviour around edge cases. NULL handling, transaction isolation, JSON parsing, date formatting. The interfaces define the types but not the semantics. We cannot guarantee that switching from MySQL to PostgreSQL preserves every edge case. Integration tests per adapter are the mitigation, but they will never be exhaustive.' },
+
+    { type: 'heading', text: 'Security considerations' },
+    { type: 'paragraph', text: 'Decoupling the database layer has security implications that go both ways.' },
+    { type: 'paragraph', text: 'On the positive side, core now has a smaller attack surface. There is no SQL injection risk in core because there is no SQL. The adapter package owns all query construction. Security audits for SQL injection focus on one package, not the entire codebase. Parameterised queries are the adapter responsibility, enforced by code review at the adapter level.' },
+    { type: 'paragraph', text: 'On the concerning side, community adapters introduce supply chain risk. A malicious or poorly-written adapter could exfiltrate data, skip parameterisation, or introduce vulnerabilities. The DatabaseAdapter interface does not and cannot enforce security properties. It enforces types.' },
+    { type: 'paragraph', text: 'Our mitigation is transparency. The reference adapter is MIT-licensed and publicly auditable. Community adapters are community-maintained. We will document security requirements for adapter authors, specifically parameterised queries, input validation at the SQL boundary, and connection pooling best practices. But we cannot enforce them architecturally. This is the trade-off of an open adapter system.' },
+
+    { type: 'heading', text: 'The validation test suite' },
+    { type: 'paragraph', text: 'To help adapter authors, core exports a test helper that verifies a DatabaseAdapter implementation at runtime.' },
+    { type: 'code', language: 'typescript', code: "import { validateDatabaseAdapter } from '@supaproxy/core/testing/validate-adapter'\nimport { createPostgresInfra } from '../src/index.js'\n\nconst pool = getTestPool()\nconst adapter = createPostgresInfra(pool)\nvalidateDatabaseAdapter(adapter)" },
+    { type: 'paragraph', text: 'The validator checks that every repository key exists and every required method is a function. It does not test behaviour. It tests structure. Behaviour testing is the adapter responsibility using their own database. But the structural test catches the most common mistake, forgetting to implement a method or returning the wrong shape.' },
+
+    { type: 'heading', text: 'What is next' },
+    { type: 'paragraph', text: 'The database layer is extracted. The queue layer is next. BullMQ will move to @supaproxy/bullmq with a QueueService interface. Then LanceDB to @supaproxy/lancedb with a VectorStore interface. Then Redis sessions to @supaproxy/redis with a SessionStore interface.' },
+    { type: 'paragraph', text: 'When all four are done, core will have zero infrastructure dependencies. No mysql2. No bullmq. No ioredis. No lancedb. The core package will contain domain interfaces, use cases, route handlers, and the composition root. Everything else will be a choice.' },
+    { type: 'paragraph', text: 'The composition root itself will eventually move out of core. It will become the host application is responsibility. Core will export createContainer and createApp. The host will import its adapters and wire them. Our open-source index.ts is one host. Our cloud is another. An embedded deployment inside an existing Express app would be a third.' },
+    { type: 'paragraph', text: 'The database extraction is not the end of the composability work. It is the proof that the approach works at the hardest layer. Auth was easier because it has a small surface area. The database touches every use case. If we can extract it cleanly, we can extract anything.' },
+    { type: 'paragraph', text: 'We are publishing this now because the philosophy site is a design journal. These are the decisions we made this week, the architecture we committed to, and the trade-offs we are living with. If you see something we missed or a risk we underestimated, we want to know.' },
+  ],
+}
