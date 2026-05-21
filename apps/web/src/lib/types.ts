@@ -28,6 +28,7 @@ export type ContentBlock =
   | { type: 'mermaid'; diagram: string; caption?: string }
   | { type: 'callout'; variant: 'insight' | 'principle' | 'warning'; title: string; text: string }
   | { type: 'comparison'; left: { title: string; items: string[] }; right: { title: string; items: string[] } }
+  | { type: 'layers'; layers: { title: string; items: string[] }[] }
   | { type: 'image'; src: string; alt: string; caption?: string }
 
 export const CATEGORIES: Category[] = ['Architecture', 'Philosophy', 'Products', 'Engineering', 'Vision']

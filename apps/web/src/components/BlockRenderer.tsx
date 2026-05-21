@@ -95,6 +95,27 @@ function RenderBlock({ block }: { block: ContentBlock }) {
         </div>
       )
 
+    case 'layers':
+      return (
+        <div className="my-6 space-y-3">
+          {block.layers.map((layer, idx) => (
+            <div key={idx} className="rounded-xl p-5 flex gap-5 items-start" style={{ background: idx === 0 ? 'var(--bg-surface)' : 'var(--bg-card)', border: '1px solid var(--border-color)' }}>
+              <div className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-[13px] font-bold mt-0.5" style={{ background: 'var(--color-accent-bg)', border: '1px solid var(--color-accent-border)', color: 'var(--color-accent)' }}>
+                {idx + 1}
+              </div>
+              <div className="min-w-0">
+                <h4 className="text-[14px] font-semibold mb-2" style={{ color: 'var(--text-heading)' }}>{layer.title}</h4>
+                <ul className="space-y-1.5">
+                  {layer.items.map((item, i) => (
+                    <li key={i} className="text-[13px] leading-relaxed" style={{ color: 'var(--body)' }}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      )
+
     default:
       return null
   }
