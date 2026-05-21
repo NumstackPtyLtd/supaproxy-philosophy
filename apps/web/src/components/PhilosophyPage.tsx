@@ -3,6 +3,7 @@ import { Header, NavLink } from '@supaproxy/ui'
 import { ARTICLES, getArticlesByCategory, ARTICLES_PER_PAGE } from '../content'
 import { CATEGORIES, type Article } from '../lib/types'
 import { ArticleCard } from './ArticleCard'
+import { ThemeToggle } from './ThemeToggle'
 import { formatDate } from '../lib/formatters'
 
 export default function PhilosophyPage() {
@@ -33,6 +34,7 @@ export default function PhilosophyPage() {
           <>
             <NavLink href="https://supaproxy.cloud">Platform</NavLink>
             <NavLink href="https://docs.supaproxy.cloud">Docs</NavLink>
+            <ThemeToggle />
           </>
         }
       />
