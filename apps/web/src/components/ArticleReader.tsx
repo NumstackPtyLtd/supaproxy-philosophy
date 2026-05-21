@@ -1,5 +1,6 @@
 import { ArrowLeft } from 'lucide-react'
 import { Header } from '@supaproxy/ui'
+import { ThemeToggle } from './ThemeToggle'
 import type { Article } from '../lib/types'
 import { BlockRenderer } from './BlockRenderer'
 
@@ -19,7 +20,7 @@ export default function ArticleReader({ article }: { article: Article }) {
   if (article.featured) {
     return (
       <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
-        <Header brand={headerBrand} />
+        <Header brand={headerBrand} nav={<ThemeToggle />} />
         <div style={{ background: 'var(--bg-surface)' }}>
           <div className="max-w-[760px] mx-auto px-6 pt-20 pb-12">
             <a href="/" className="flex items-center gap-1.5 text-[13px] mb-8 transition-opacity hover:opacity-70" style={{ color: 'var(--body)' }}>
@@ -47,7 +48,7 @@ export default function ArticleReader({ article }: { article: Article }) {
 
   return (
     <div style={{ background: 'var(--bg)' }} className="min-h-screen">
-      <Header brand={headerBrand} />
+      <Header brand={headerBrand} nav={<ThemeToggle />} />
       <main className="pt-14">
         <div className="max-w-[660px] mx-auto px-6 pt-10 pb-16">
           <a href="/" className="flex items-center gap-1.5 text-[13px] mb-8 transition-opacity hover:opacity-70" style={{ color: 'var(--body)' }}>
