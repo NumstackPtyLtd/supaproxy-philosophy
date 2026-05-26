@@ -15,6 +15,7 @@ import { article as marketplaceArchitecture } from './marketplace-architecture'
 import { article as knowledgeIsInfrastructure } from './knowledge-is-infrastructure'
 import { article as pluggableDatabase } from './pluggable-database'
 import { article as understandingAsUx } from './understanding-as-ux'
+import { article as aiNativeBanking } from './ai-native-banking'
 
 /**
  * All articles, newest first.
@@ -24,6 +25,7 @@ import { article as understandingAsUx } from './understanding-as-ux'
  * 3. Import and add to this array
  */
 export const ARTICLES: Article[] = [
+  aiNativeBanking,
   understandingAsUx,
   knowledgeIsInfrastructure,
   pluggableDatabase,
